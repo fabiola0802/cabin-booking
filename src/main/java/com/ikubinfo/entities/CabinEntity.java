@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -18,13 +15,9 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "cabin", uniqueConstraints = @UniqueConstraint(columnNames = { "cabin_number" }))
-public class CabinEntity implements Serializable {
+public class CabinEntity extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
 
 	@Column(name = "cabin_number", nullable = false)
 	private int cabinNumber;
@@ -54,14 +47,6 @@ public class CabinEntity implements Serializable {
 
 	@OneToMany(mappedBy = "cabin")
 	private List<BookingEntity> bookings;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public int getCabinNumber() {
 		return cabinNumber;
@@ -140,6 +125,17 @@ public class CabinEntity implements Serializable {
 		return "CabinEntity [id=" + id + ", cabinNumber=" + cabinNumber + ", numberOfFloors=" + numberOfFloors
 				+ ", numberOfKitchens=" + numberOfKitchens + ", numberOfBathrooms=" + numberOfBathrooms
 				+ ", numberOfBedrooms=" + numberOfBedrooms + ", maxCapacity=" + maxCapacity + ", site=" + site + "]";
+	}
+
+	@Override
+	public int getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(int id) {
+		this.id = id;
+
 	}
 
 }

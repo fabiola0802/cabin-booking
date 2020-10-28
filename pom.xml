@@ -36,7 +36,7 @@
 		<spring.data.version>2.1.5.RELEASE</spring.data.version>
 		<spring.security.version>5.1.4.RELEASE</spring.security.version>
 		<apache.httpcomponents.version>4.5.4</apache.httpcomponents.version>
-		
+
 
 	</properties>
 
@@ -159,7 +159,7 @@
 			<artifactId>validation-api</artifactId>
 			<version>${javax.validation.version}</version>
 		</dependency>
-		
+
 		<!-- rest -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -190,19 +190,19 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-hibernate5</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
-		   <groupId>com.fasterxml.jackson.datatype</groupId>
-		   <artifactId>jackson-datatype-jsr310</artifactId>
-		   <version>${jackson.version}</version>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -210,5 +210,5 @@
 		</dependency>
 
 	</dependencies>
-	
+
 </project>

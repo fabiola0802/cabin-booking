@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -16,13 +13,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "site")
-public class SiteEntity implements Serializable {
+public class SiteEntity extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
 
 	@Column(nullable = false)
 	private int code;
@@ -39,14 +32,6 @@ public class SiteEntity implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "site_attribute", joinColumns = @JoinColumn(name = "site_id"), inverseJoinColumns = @JoinColumn(name = "attribute_id"))
 	private List<AttributeEntity> siteAttributes;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public int getCode() {
 		return code;
@@ -92,6 +77,17 @@ public class SiteEntity implements Serializable {
 	public String toString() {
 		return "SiteEntity [id=" + id + ", code=" + code + ", description=" + description + ", location=" + location
 				+ "]";
+	}
+
+	@Override
+	public int getId() {
+
+		return id;
+	}
+
+	@Override
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

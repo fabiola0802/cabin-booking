@@ -5,25 +5,21 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "booking")
-public class BookingEntity implements Serializable {
+public class BookingEntity extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
 	@Column(name = "booking_date")
 	private LocalDate bookingDate;
+
+	@Column(name = "check_in_date")
+	private LocalDate checkInDate;
 
 	@Column(name = "check_out_date")
 	private LocalDate checkOutDate;
@@ -39,20 +35,20 @@ public class BookingEntity implements Serializable {
 	@JoinColumn(name = "cabin_id")
 	private CabinEntity cabin;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public LocalDate getBookingDate() {
 		return bookingDate;
 	}
 
 	public void setBookingDate(LocalDate bookingDate) {
 		this.bookingDate = bookingDate;
+	}
+
+	public LocalDate getCheckInDate() {
+		return checkInDate;
+	}
+
+	public void setCheckInDate(LocalDate checkInDate) {
+		this.checkInDate = checkInDate;
 	}
 
 	public LocalDate getCheckOutDate() {
@@ -87,10 +83,23 @@ public class BookingEntity implements Serializable {
 		this.cabin = cabin;
 	}
 
+
 	@Override
 	public String toString() {
-		return "BookingEntity [id=" + id + ", bookingDate=" + bookingDate + ", checkOutDate=" + checkOutDate
-				+ ", numberOfPeople=" + numberOfPeople + "]";
+		return "BookingEntity [bookingDate=" + bookingDate + ", checkInDate=" + checkInDate + ", checkOutDate="
+				+ checkOutDate + ", numberOfPeople=" + numberOfPeople + "]";
+	}
+
+	@Override
+	public int getId() {
+
+		return id;
+	}
+
+	@Override
+	public void setId(int id) {
+		this.id = id;
+
 	}
 
 }
