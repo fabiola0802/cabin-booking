@@ -1,9 +1,35 @@
 package com.ikub.converter;
 
-public interface BaseConverter<T, S> {
+import java.util.ArrayList;
+import java.util.List;
 
-	T toEntity(S dto);
+import com.ikubinfo.dto.BaseDto;
+import com.ikubinfo.entities.BaseEntity;
 
-	S toDto(T entity);
+public interface BaseConverter<ENTITY extends BaseEntity, DTO extends BaseDto> {
+
+	ENTITY toEntity(DTO dto);
+
+	DTO toDto(ENTITY entity);
+
+	public default List<ENTITY> toEntities(List<DTO> dtos) {
+		List<ENTITY> entities = new ArrayList<>();
+
+		for (DTO dto : dtos) {
+			entities.add(toEntity(dto));
+		}
+		return entities;
+
+	}
+
+	public default List<DTO> toDtos(List<ENTITY> entities) {
+		List<DTO> dtos = new ArrayList<>();
+
+		for (ENTITY entity : entities) {
+			dtos.add(toDto(entity));
+		}
+
+		return dtos;
+	}
 
 }

@@ -1,8 +1,5 @@
 package com.ikub.converter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import com.ikubinfo.dto.AttributeDto;
@@ -26,26 +23,6 @@ public class AttributeConverter implements BaseConverter<AttributeEntity, Attrib
 		attributeDto.setName(entity.getName());
 		attributeDto.setType(entity.getType());
 		return attributeDto;
-	}
-
-	public List<AttributeEntity> toEntities(List<AttributeDto> dtoAttributes) {
-		List<AttributeEntity> attributes = new ArrayList<>();
-
-		for (AttributeDto dtoAttribute : dtoAttributes) {
-			attributes.add(toEntity(dtoAttribute));
-		}
-		return attributes;
-
-	}
-
-	public List<AttributeDto> toDtos(List<AttributeEntity> attributes) {
-		List<AttributeDto> dtoAttributes = new ArrayList<>();
-
-		for (AttributeEntity attribute : attributes) {
-			dtoAttributes.add(toDto(attribute));
-		}
-
-		return dtoAttributes;
 	}
 
 }
