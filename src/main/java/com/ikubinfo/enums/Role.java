@@ -1,4 +1,4 @@
-package com.ikubinfo.entities;
+package com.ikubinfo.enums;
 
 public enum Role {
 	

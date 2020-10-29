@@ -7,21 +7,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.ikubinfo.enums.AttributeType;
+
 @Entity
 @Table(name = "attribute")
-public class AttributeEntity implements Serializable {
+public class AttributeEntity extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
 
 	@Column(nullable = false)
 	private String name;
@@ -34,14 +29,6 @@ public class AttributeEntity implements Serializable {
 
 	@ManyToMany(mappedBy = "siteAttributes")
 	private List<SiteEntity> sites;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -78,6 +65,18 @@ public class AttributeEntity implements Serializable {
 	@Override
 	public String toString() {
 		return "AttributeEntity [id=" + id + ", name=" + name + ", type=" + type + "]";
+	}
+
+	@Override
+	public int getId() {
+
+		return id;
+	}
+
+	@Override
+	public void setId(int id) {
+
+		this.id = id;
 	}
 
 }
