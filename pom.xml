@@ -33,7 +33,7 @@
 
 		<slf4j.version>1.7.25</slf4j.version>
 		<spring.version>5.1.5.RELEASE</spring.version>
-		<spring.data.version>2.1.5.RELEASE</spring.data.version>
+		<spring.data.version>2.3.4.RELEASE</spring.data.version>
 		<spring.security.version>5.1.4.RELEASE</spring.security.version>
 		<apache.httpcomponents.version>4.5.4</apache.httpcomponents.version>
 
@@ -72,7 +72,6 @@
 		</dependency>
 
 
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
@@ -90,6 +89,13 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+
+	<dependency>
+		<groupId>org.springframework.data</groupId>
+		<artifactId>spring-data-jpa</artifactId>
+		<version>${spring.data.version}</version>
+	</dependency>
+
 		<!-- PostgreSQL -->
 		<dependency>
 			<groupId>org.postgresql</groupId>

@@ -1,4 +1,4 @@
-package com.ikub.converter;
+package com.ikubinfo.converter;
 
 import org.springframework.stereotype.Component;
 
@@ -27,4 +27,16 @@ public class SiteConverter implements BaseConverter<SiteEntity, SiteDto> {
 		return siteDto;
 	}
 
+	public SiteEntity toUpdateEntity(SiteEntity entity, SiteDto dto) {
+		if(dto.getCode()!= 0) {
+			entity.setCode(dto.getCode());
+		}
+		if(dto.getDescription()!= null) {
+			entity.setDescription(dto.getDescription());
+		}
+		if(dto.getLocation()!= null) {
+			entity.setLocation(dto.getLocation());
+		}
+		return entity;
+	}
 }

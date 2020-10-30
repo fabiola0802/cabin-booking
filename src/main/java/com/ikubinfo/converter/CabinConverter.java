@@ -1,4 +1,4 @@
-package com.ikub.converter;
+package com.ikubinfo.converter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

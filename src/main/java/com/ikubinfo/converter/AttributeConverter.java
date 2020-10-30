@@ -1,4 +1,4 @@
-package com.ikub.converter;
+package com.ikubinfo.converter;
 
 import org.springframework.stereotype.Component;
 
