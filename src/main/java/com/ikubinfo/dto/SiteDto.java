@@ -6,7 +6,7 @@ public class SiteDto extends BaseDto  {
 	private int code;
 	private String description;
 	private String location;
-
+	
 	public int getCode() {
 		return code;
 	}
