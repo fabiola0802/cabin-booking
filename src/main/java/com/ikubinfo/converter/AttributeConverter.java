@@ -25,4 +25,15 @@ public class AttributeConverter implements BaseConverter<AttributeEntity, Attrib
 		return attributeDto;
 	}
 
+	public AttributeEntity toUpdateEntity(AttributeEntity entity, AttributeDto dto) {
+		if (dto.getName() != null) {
+			entity.setName(dto.getName());
+		}
+		if (dto.getType() != null) {
+			entity.setType(dto.getType());
+		}
+
+		return entity;
+	}
+
 }

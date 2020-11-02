@@ -1,6 +1,17 @@
 package com.ikubinfo.enums;
 
 public enum AttributeType {
-	CABIN, SITE;
 
+	site,
+
+	cabin;
+
+	public static boolean contains(AttributeType type) {
+		for (AttributeType attributeType : values()) {
+			if (attributeType.name().equals(type.name())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

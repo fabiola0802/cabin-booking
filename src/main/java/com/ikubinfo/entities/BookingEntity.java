@@ -1,6 +1,5 @@
 package com.ikubinfo.entities;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -11,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "booking")
-public class BookingEntity extends BaseEntity implements Serializable {
+public class BookingEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -82,7 +81,6 @@ public class BookingEntity extends BaseEntity implements Serializable {
 	public void setCabin(CabinEntity cabin) {
 		this.cabin = cabin;
 	}
-
 
 	@Override
 	public String toString() {

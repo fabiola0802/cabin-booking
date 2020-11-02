@@ -36,6 +36,7 @@
 		<spring.data.version>2.3.4.RELEASE</spring.data.version>
 		<spring.security.version>5.1.4.RELEASE</spring.security.version>
 		<apache.httpcomponents.version>4.5.4</apache.httpcomponents.version>
+		<hibernate-types.version>2.10.0</hibernate-types.version>
 
 
 	</properties>
@@ -90,11 +91,11 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-	<dependency>
-		<groupId>org.springframework.data</groupId>
-		<artifactId>spring-data-jpa</artifactId>
-		<version>${spring.data.version}</version>
-	</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring.data.version}</version>
+		</dependency>
 
 		<!-- PostgreSQL -->
 		<dependency>
@@ -121,6 +122,12 @@
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate.validator.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.vladmihalcea/hibernate-types-52 -->
+		<dependency>
+			<groupId>com.vladmihalcea</groupId>
+			<artifactId>hibernate-types-52</artifactId>
+			<version>${hibernate-types.version}</version>
 		</dependency>
 
 		<dependency>

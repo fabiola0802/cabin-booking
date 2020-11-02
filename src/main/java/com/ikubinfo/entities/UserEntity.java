@@ -1,6 +1,5 @@
 package com.ikubinfo.entities;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,7 +14,7 @@ import com.ikubinfo.enums.Role;
 
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "username" }))
-public class UserEntity extends BaseEntity implements Serializable {
+public class UserEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,6 +34,7 @@ public class UserEntity extends BaseEntity implements Serializable {
 	private String password;
 
 	@Enumerated(EnumType.STRING)
+	@Column(name = "role", columnDefinition = "varchar")
 	private Role role;
 
 	@OneToMany(mappedBy = "user")

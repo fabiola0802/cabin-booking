@@ -2,11 +2,12 @@ package com.ikubinfo.dto;
 
 import com.ikubinfo.enums.AttributeType;
 
-public class AttributeDto extends BaseDto{
+public class AttributeDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
 	private String name;
+
 	private AttributeType type;
 
 	public String getName() {
@@ -23,6 +24,14 @@ public class AttributeDto extends BaseDto{
 
 	public void setType(AttributeType type) {
 		this.type = type;
+	}
+
+	public void setType(String type) {
+		for (AttributeType attributeType : AttributeType.values()) {
+			if (attributeType.name().equals(type)) {
+				 setType(attributeType);
+			}
+		}
 	}
 
 	@Override
