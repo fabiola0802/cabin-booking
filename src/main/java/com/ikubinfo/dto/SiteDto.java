@@ -1,12 +1,20 @@
 package com.ikubinfo.dto;
 
-public class SiteDto extends BaseDto  {
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+public class SiteDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
-	private int code;
+	
+	@NotNull
+	@Min(value = 1000, message = "code should be with 4 digits")
+	@Max(value = 9999, message = "code should be with 4 digits")
+	private Integer code;
 	private String description;
 	private String location;
-	
+
 	public int getCode() {
 		return code;
 	}
@@ -31,13 +39,4 @@ public class SiteDto extends BaseDto  {
 		this.location = location;
 	}
 
-	@Override
-	public int getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(int id) {
-		this.id = id;
-	}
 }

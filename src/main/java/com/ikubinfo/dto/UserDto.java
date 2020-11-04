@@ -52,14 +52,4 @@ public class UserDto extends BaseDto implements Serializable {
 		this.password = password;
 	}
 
-	@Override
-	public int getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(int id) {
-		this.id = id;
-	}
-
 }

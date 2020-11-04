@@ -11,6 +11,7 @@ public class SiteConverter implements BaseConverter<SiteEntity, SiteDto> {
 	@Override
 	public SiteEntity toEntity(SiteDto dto) {
 		SiteEntity site = new SiteEntity();
+		site.setId(dto.getId());
 		site.setCode(dto.getCode());
 		site.setDescription(dto.getDescription());
 		site.setLocation(dto.getLocation());
@@ -27,16 +28,4 @@ public class SiteConverter implements BaseConverter<SiteEntity, SiteDto> {
 		return siteDto;
 	}
 
-	public SiteEntity toUpdateEntity(SiteEntity entity, SiteDto dto) {
-		if(dto.getCode()!= 0) {
-			entity.setCode(dto.getCode());
-		}
-		if(dto.getDescription()!= null) {
-			entity.setDescription(dto.getDescription());
-		}
-		if(dto.getLocation()!= null) {
-			entity.setLocation(dto.getLocation());
-		}
-		return entity;
-	}
 }

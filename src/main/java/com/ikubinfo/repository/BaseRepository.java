@@ -2,6 +2,7 @@ package com.ikubinfo.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -58,7 +59,6 @@ public abstract class BaseRepository<ENTITY extends BaseEntity> {
 		List<Predicate> predicates = new ArrayList<>();
 		Predicate idPredicate = builder.equal(root.get("id"), id);
 		predicates.add(idPredicate);
-
 		query.where(predicates.toArray(new Predicate[] {}));
 		query.select(root).distinct(true);
 		try {
@@ -67,6 +67,10 @@ public abstract class BaseRepository<ENTITY extends BaseEntity> {
 			return null;
 		}
 
+	}
+	
+	public Optional<ENTITY> findOptionalById(int id) {
+		return Optional.ofNullable(findById(id));
 	}
 
 	public Class<ENTITY> getEntityClass() {

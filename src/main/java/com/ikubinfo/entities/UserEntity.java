@@ -38,7 +38,7 @@ public class UserEntity extends BaseEntity {
 	private Role role;
 
 	@OneToMany(mappedBy = "user")
-	private List<BookingEntity> bookigs;
+	private List<BookingEntity> bookings;
 
 	public String getName() {
 		return name;
@@ -88,29 +88,18 @@ public class UserEntity extends BaseEntity {
 		this.role = role;
 	}
 
-	public List<BookingEntity> getBookigs() {
-		return bookigs;
+	public List<BookingEntity> getBookings() {
+		return bookings;
 	}
 
-	public void setBookigs(List<BookingEntity> bookigs) {
-		this.bookigs = bookigs;
+	public void setBookings(List<BookingEntity> bookings) {
+		this.bookings = bookings;
 	}
 
 	@Override
 	public String toString() {
 		return "UserEntity [id=" + id + ", name=" + name + ", surname=" + surname + ", username=" + username
 				+ ", email=" + email + ", password=" + password + ", role=" + role + "]";
-	}
-
-	@Override
-	public int getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(int id) {
-		this.id = id;
-
 	}
 
 }

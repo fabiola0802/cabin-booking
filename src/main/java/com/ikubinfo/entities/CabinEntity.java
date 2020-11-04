@@ -126,15 +126,4 @@ public class CabinEntity extends BaseEntity {
 				+ ", numberOfBedrooms=" + numberOfBedrooms + ", maxCapacity=" + maxCapacity + ", site=" + site + "]";
 	}
 
-	@Override
-	public int getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(int id) {
-		this.id = id;
-
-	}
-
 }

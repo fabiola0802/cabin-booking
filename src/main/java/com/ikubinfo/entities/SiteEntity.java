@@ -78,15 +78,4 @@ public class SiteEntity extends BaseEntity {
 				+ "]";
 	}
 
-	@Override
-	public int getId() {
-
-		return id;
-	}
-
-	@Override
-	public void setId(int id) {
-		this.id = id;
-	}
-
 }

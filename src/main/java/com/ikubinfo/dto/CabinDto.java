@@ -2,7 +2,6 @@ package com.ikubinfo.dto;
 
 public class CabinDto extends BaseDto {
 
-
 	private static final long serialVersionUID = 1L;
 	private int cabinNumber;
 	private int numberOfFloors;
@@ -66,16 +65,6 @@ public class CabinDto extends BaseDto {
 
 	public void setSite(SiteDto site) {
 		this.site = site;
-	}
-
-	@Override
-	public int getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(int id) {
-		this.id = id;
 	}
 
 }

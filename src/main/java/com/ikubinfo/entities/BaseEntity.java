@@ -11,12 +11,19 @@ import javax.persistence.MappedSuperclass;
 public abstract class BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected int id;
+	protected Integer id;
 
-	public abstract int getId();
+	public Integer getId() {
+		return id;
+	}
 
-	public abstract void setId(int id);
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	
 
 }

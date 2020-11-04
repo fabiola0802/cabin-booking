@@ -11,6 +11,7 @@ public class AttributeConverter implements BaseConverter<AttributeEntity, Attrib
 	@Override
 	public AttributeEntity toEntity(AttributeDto dto) {
 		AttributeEntity attribute = new AttributeEntity();
+		attribute.setId(dto.getId());
 		attribute.setName(dto.getName());
 		attribute.setType(dto.getType());
 		return attribute;
@@ -23,17 +24,6 @@ public class AttributeConverter implements BaseConverter<AttributeEntity, Attrib
 		attributeDto.setName(entity.getName());
 		attributeDto.setType(entity.getType());
 		return attributeDto;
-	}
-
-	public AttributeEntity toUpdateEntity(AttributeEntity entity, AttributeDto dto) {
-		if (dto.getName() != null) {
-			entity.setName(dto.getName());
-		}
-		if (dto.getType() != null) {
-			entity.setType(dto.getType());
-		}
-
-		return entity;
 	}
 
 }

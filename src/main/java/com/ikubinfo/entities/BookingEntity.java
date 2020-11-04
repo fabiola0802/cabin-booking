@@ -85,19 +85,7 @@ public class BookingEntity extends BaseEntity {
 	@Override
 	public String toString() {
 		return "BookingEntity [bookingDate=" + bookingDate + ", checkInDate=" + checkInDate + ", checkOutDate="
-				+ checkOutDate + ", numberOfPeople=" + numberOfPeople + "]";
-	}
-
-	@Override
-	public int getId() {
-
-		return id;
-	}
-
-	@Override
-	public void setId(int id) {
-		this.id = id;
-
+				+ checkOutDate + ", numberOfPeople=" + numberOfPeople + ", user=" + user + ", cabin=" + cabin + "]";
 	}
 
 }

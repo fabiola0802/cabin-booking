@@ -2,6 +2,8 @@ package com.ikubinfo.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ikubinfo.dto.AttributeDto;
-import com.ikubinfo.enums.AttributeType;
 import com.ikubinfo.service.AttributeService;
 import com.ikubinfo.utils.Routes;
 
@@ -28,7 +29,7 @@ public class AttributeController {
 	private AttributeService attributeService;
 
 	@GetMapping
-	public ResponseEntity<List<AttributeDto>> getAttributes(@RequestParam(value = Routes.TYPE, required = false) AttributeType type) {
+	public ResponseEntity<List<AttributeDto>> getAttributes(@RequestParam(value = Routes.TYPE, required = false) String type) {
 		return ResponseEntity.ok(attributeService.filterAttributesByType(type));
 	}
 
@@ -39,13 +40,13 @@ public class AttributeController {
 	}
 
 	@PostMapping
-	public ResponseEntity<AttributeDto> createAttribute(@RequestBody AttributeDto attribute) {
+	public ResponseEntity<AttributeDto> createAttribute(@Valid @RequestBody AttributeDto attribute) {
 		return ResponseEntity.ok(attributeService.createAttribute(attribute));
 	}
 
 	@PutMapping(value = Routes.BY_ID)
 	public ResponseEntity<AttributeDto> updateAttribute(@PathVariable(value = Routes.ID) int id,
-			@RequestBody AttributeDto attributeToBeUpdated) {
+			@Valid @RequestBody AttributeDto attributeToBeUpdated) {
 		return ResponseEntity.ok(attributeService.updateAttribute(id, attributeToBeUpdated));
 
 	}

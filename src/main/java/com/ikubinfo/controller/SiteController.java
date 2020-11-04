@@ -2,6 +2,8 @@ package com.ikubinfo.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,19 +39,19 @@ public class SiteController {
 	}
 
 	@PostMapping
-	public ResponseEntity<SiteDto> addSite(@RequestBody SiteDto siteToBeCreated) {
+	public ResponseEntity<SiteDto> addSite(@Valid @RequestBody SiteDto siteToBeCreated) {
 		return ResponseEntity.ok(siteService.addSite(siteToBeCreated));
 	}
 
 	@PutMapping(value = Routes.BY_ID)
 	public ResponseEntity<SiteDto> updateSite(@PathVariable(value = Routes.ID) int id,
-			@RequestBody SiteDto siteToBeUpdated) {
+			@Valid @RequestBody SiteDto siteToBeUpdated) {
 		return ResponseEntity.ok(siteService.updateSite(id, siteToBeUpdated));
 	}
 
 	@DeleteMapping(value = Routes.BY_ID)
 	public ResponseEntity<Void> deleteSite(@PathVariable(value = Routes.ID) int id) {
 		siteService.deleteSite(id);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.noContent().build();
 	}
 }

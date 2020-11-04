@@ -123,13 +123,6 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate.validator.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.vladmihalcea/hibernate-types-52 -->
-		<dependency>
-			<groupId>com.vladmihalcea</groupId>
-			<artifactId>hibernate-types-52</artifactId>
-			<version>${hibernate-types.version}</version>
-		</dependency>
-
 		<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>javax.el-api</artifactId>
