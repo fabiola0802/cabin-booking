@@ -1,6 +1,5 @@
 package com.ikubinfo.entities;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,7 +13,8 @@ import com.ikubinfo.enums.AttributeType;
 
 @Entity
 @Table(name = "attribute")
-public class AttributeEntity extends BaseEntity implements Serializable {
+
+public class AttributeEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,6 +22,7 @@ public class AttributeEntity extends BaseEntity implements Serializable {
 	private String name;
 
 	@Enumerated(EnumType.STRING)
+	@Column(name = "type", columnDefinition = "varchar")
 	private AttributeType type;
 
 	@ManyToMany(mappedBy = "cabinAttributes")
@@ -68,15 +69,15 @@ public class AttributeEntity extends BaseEntity implements Serializable {
 	}
 
 	@Override
-	public int getId() {
+	public Integer getId() {
 
 		return id;
 	}
 
 	@Override
-	public void setId(int id) {
-
+	public void setId(Integer id) {
 		this.id = id;
+
 	}
 
 }

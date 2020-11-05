@@ -26,6 +26,7 @@ public class BookingConverter implements BaseConverter<BookingEntity, BookingDto
 		return booking;
 	}
 
+
 	@Override
 	public BookingDto toDto(BookingEntity entity) {
 		BookingDto bookingDto = new BookingDto();

@@ -5,10 +5,15 @@ import java.io.Serializable;
 public abstract class BaseDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	protected int id;
 
-	public abstract int getId();
+	protected Integer id;
 
-	public abstract void setId(int id);
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 }

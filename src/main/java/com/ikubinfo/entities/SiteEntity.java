@@ -1,6 +1,5 @@
 package com.ikubinfo.entities;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "site")
-public class SiteEntity extends BaseEntity implements Serializable {
+public class SiteEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -77,17 +76,6 @@ public class SiteEntity extends BaseEntity implements Serializable {
 	public String toString() {
 		return "SiteEntity [id=" + id + ", code=" + code + ", description=" + description + ", location=" + location
 				+ "]";
-	}
-
-	@Override
-	public int getId() {
-
-		return id;
-	}
-
-	@Override
-	public void setId(int id) {
-		this.id = id;
 	}
 
 }

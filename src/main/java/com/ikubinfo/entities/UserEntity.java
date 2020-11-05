@@ -1,6 +1,5 @@
 package com.ikubinfo.entities;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,7 +14,7 @@ import com.ikubinfo.enums.Role;
 
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "username" }))
-public class UserEntity extends BaseEntity implements Serializable {
+public class UserEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,10 +34,11 @@ public class UserEntity extends BaseEntity implements Serializable {
 	private String password;
 
 	@Enumerated(EnumType.STRING)
+	@Column(name = "role", columnDefinition = "varchar")
 	private Role role;
 
 	@OneToMany(mappedBy = "user")
-	private List<BookingEntity> bookigs;
+	private List<BookingEntity> bookings;
 
 	public String getName() {
 		return name;
@@ -88,29 +88,18 @@ public class UserEntity extends BaseEntity implements Serializable {
 		this.role = role;
 	}
 
-	public List<BookingEntity> getBookigs() {
-		return bookigs;
+	public List<BookingEntity> getBookings() {
+		return bookings;
 	}
 
-	public void setBookigs(List<BookingEntity> bookigs) {
-		this.bookigs = bookigs;
+	public void setBookings(List<BookingEntity> bookings) {
+		this.bookings = bookings;
 	}
 
 	@Override
 	public String toString() {
 		return "UserEntity [id=" + id + ", name=" + name + ", surname=" + surname + ", username=" + username
 				+ ", email=" + email + ", password=" + password + ", role=" + role + "]";
-	}
-
-	@Override
-	public int getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(int id) {
-		this.id = id;
-
 	}
 
 }

@@ -2,7 +2,7 @@ package com.ikubinfo.dto;
 
 import java.time.LocalDate;
 
-public class BookingDto extends BaseDto{
+public class BookingDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
@@ -59,16 +59,6 @@ public class BookingDto extends BaseDto{
 
 	public void setCabin(CabinDto cabin) {
 		this.cabin = cabin;
-	}
-
-	@Override
-	public int getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(int id) {
-		this.id = id;
 	}
 
 }

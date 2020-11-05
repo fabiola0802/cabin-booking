@@ -1,6 +1,5 @@
 package com.ikubinfo.entities;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,7 +14,7 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "cabin", uniqueConstraints = @UniqueConstraint(columnNames = { "cabin_number" }))
-public class CabinEntity extends BaseEntity implements Serializable {
+public class CabinEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -125,17 +124,6 @@ public class CabinEntity extends BaseEntity implements Serializable {
 		return "CabinEntity [id=" + id + ", cabinNumber=" + cabinNumber + ", numberOfFloors=" + numberOfFloors
 				+ ", numberOfKitchens=" + numberOfKitchens + ", numberOfBathrooms=" + numberOfBathrooms
 				+ ", numberOfBedrooms=" + numberOfBedrooms + ", maxCapacity=" + maxCapacity + ", site=" + site + "]";
-	}
-
-	@Override
-	public int getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(int id) {
-		this.id = id;
-
 	}
 
 }
