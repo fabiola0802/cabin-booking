@@ -12,16 +12,20 @@ public class CabinConverter implements BaseConverter<CabinEntity, CabinDto> {
 	@Autowired
 	private SiteConverter siteConverter;
 
+	@Autowired
+	private AttributeConverter attributeConverter;
+
 	@Override
 	public CabinEntity toEntity(CabinDto dto) {
 		CabinEntity cabin = new CabinEntity();
+		cabin.setId(dto.getId());
 		cabin.setCabinNumber(dto.getCabinNumber());
 		cabin.setNumberOfFloors(dto.getNumberOfFloors());
 		cabin.setNumberOfKitchens(dto.getNumberOfKitchens());
 		cabin.setNumberOfBedrooms(dto.getNumberOfBedrooms());
 		cabin.setNumberOfBathrooms(dto.getNumberOfBathrooms());
 		cabin.setMaxCapacity(dto.getMaxCapacity());
-		cabin.setSite(siteConverter.toEntity(dto.getSite()));
+		cabin.setPrice(dto.getPrice());
 		return cabin;
 	}
 
@@ -35,7 +39,9 @@ public class CabinConverter implements BaseConverter<CabinEntity, CabinDto> {
 		cabinDto.setNumberOfKitchens(entity.getNumberOfKitchens());
 		cabinDto.setNumberOfBathrooms(entity.getNumberOfBathrooms());
 		cabinDto.setNumberOfBedrooms(entity.getNumberOfBedrooms());
+		cabinDto.setPrice(entity.getPrice());
 		cabinDto.setSite(siteConverter.toDto(entity.getSite()));
+		cabinDto.setAttributes(attributeConverter.toDtos(entity.getCabinAttributes()));
 		return cabinDto;
 	}
 

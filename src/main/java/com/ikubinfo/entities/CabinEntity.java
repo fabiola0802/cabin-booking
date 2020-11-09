@@ -36,6 +36,9 @@ public class CabinEntity extends BaseEntity {
 	@Column(name = "max_capacity", nullable = false)
 	private int maxCapacity;
 
+	@Column(name = "price", nullable = false)
+	private double price;
+	
 	@ManyToOne
 	@JoinColumn(name = "site_id")
 	private SiteEntity site;
@@ -117,6 +120,14 @@ public class CabinEntity extends BaseEntity {
 
 	public void setCabinAttributes(List<AttributeEntity> cabinAttributes) {
 		this.cabinAttributes = cabinAttributes;
+	}
+	
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	@Override

@@ -1,15 +1,29 @@
 package com.ikubinfo.dto;
 
+import java.util.List;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class CabinDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
+	@NotNull
+	@Min(value = 100, message = "cabin number should be with 3 digits")
+	@Max(value = 999, message = "cabin number should be with 3 digits")
 	private int cabinNumber;
+	@NotNull
+	@Min(value = 1, message = "Cabin should have at least 1 floor")
+	@Max(value = 2, message = "Cabin cannot have more than 2 floors")
 	private int numberOfFloors;
 	private int numberOfKitchens;
 	private int numberOfBathrooms;
 	private int numberOfBedrooms;
 	private int maxCapacity;
+	private double price;
 	private SiteDto site;
+	private List<AttributeDto> attributes;
 
 	public int getCabinNumber() {
 		return cabinNumber;
@@ -65,6 +79,22 @@ public class CabinDto extends BaseDto {
 
 	public void setSite(SiteDto site) {
 		this.site = site;
+	}
+
+	public List<AttributeDto> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(List<AttributeDto> attributes) {
+		this.attributes = attributes;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 }
