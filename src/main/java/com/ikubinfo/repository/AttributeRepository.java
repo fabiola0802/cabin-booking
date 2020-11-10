@@ -37,4 +37,20 @@ public class AttributeRepository extends BaseRepository<AttributeEntity> {
 		return entityManager.createQuery(query).getResultList();
 
 	}
+
+	public List<AttributeEntity> findByIdsAndType(List<Integer> ids, AttributeType type) {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<AttributeEntity> query = builder.createQuery(AttributeEntity.class);
+		Root<AttributeEntity> root = query.from(AttributeEntity.class);
+		List<Predicate> predicates = new ArrayList<>();
+		Predicate typePredicate = builder.equal(root.get("type"), type);
+		predicates.add(typePredicate);
+		Predicate idsPredicate = root.get("id").in(ids);
+		predicates.add(idsPredicate);
+		query.where(predicates.toArray(new Predicate[] {}));
+		query.select(root).distinct(true);
+		return entityManager.createQuery(query).getResultList();
+	}
+
 }
+

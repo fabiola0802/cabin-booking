@@ -11,5 +11,4 @@ public class SiteRepository extends BaseRepository<SiteEntity> {
 		super(SiteEntity.class);
 	}
 
-	
 }

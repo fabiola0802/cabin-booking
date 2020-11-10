@@ -1,6 +1,5 @@
 package com.ikubinfo.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ikubinfo.converter.CabinConverter;
-import com.ikubinfo.dto.AttributeDto;
 import com.ikubinfo.dto.CabinDto;
 import com.ikubinfo.entities.AttributeEntity;
 import com.ikubinfo.entities.CabinEntity;
@@ -48,19 +46,9 @@ public class CabinService {
 		}
 		SiteEntity site = siteRepository.findOptionalById(cabinToBeCreated.getSite().getId())
 				.orElseThrow(() -> new NotFoundException(ExceptionMessage.SITE_NOT_FOUND.getMessage()));
+		List<AttributeEntity> attributeEntities = validateAttributes(cabinToBeCreated);
 		CabinEntity cabinEntity = cabinConverter.toEntity(cabinToBeCreated);
 		cabinEntity.setSite(site);
-		List<Integer> attributesId = cabinToBeCreated.getAttributes().stream().map(AttributeDto::getId)
-				.collect(Collectors.toList());
-		List<AttributeEntity> attributeEntities = new ArrayList<>();
-		attributesId.stream().forEach(attributeId -> {
-			AttributeEntity attribute = attributeRepository.findOptionalById(attributeId)
-					.orElseThrow(() -> new NotFoundException(ExceptionMessage.ATTRIBUTE_NOT_FOUND.getMessage()));
-			if (!attribute.getType().equals(AttributeType.CABIN)) {
-				throw new BadRequestException(BadRequestMessage.INCORRECT_TYPE.getMessage());
-			}
-			attributeEntities.add(attribute);
-		});
 		cabinEntity.setCabinAttributes(attributeEntities);
 		return cabinConverter.toDto(cabinRepository.save(cabinEntity));
 	}
@@ -74,19 +62,9 @@ public class CabinService {
 		cabinToBeUpdated.setId(id);
 		SiteEntity site = siteRepository.findOptionalById(cabinToBeUpdated.getSite().getId())
 				.orElseThrow(() -> new NotFoundException(ExceptionMessage.SITE_NOT_FOUND.getMessage()));
+		List<AttributeEntity> attributeEntities = validateAttributes(cabinToBeUpdated);
 		CabinEntity cabinEntity = cabinConverter.toEntity(cabinToBeUpdated);
 		cabinEntity.setSite(site);
-		List<Integer> attributesId = cabinToBeUpdated.getAttributes().stream().map(AttributeDto::getId)
-				.collect(Collectors.toList());
-		List<AttributeEntity> attributeEntities = new ArrayList<>();
-		attributesId.stream().forEach(attributeId -> {
-			AttributeEntity attribute = attributeRepository.findOptionalById(attributeId)
-					.orElseThrow(() -> new NotFoundException(ExceptionMessage.ATTRIBUTE_NOT_FOUND.getMessage()));
-			if (!attribute.getType().equals(AttributeType.CABIN)) {
-				throw new BadRequestException(BadRequestMessage.INCORRECT_TYPE.getMessage());
-			}
-			attributeEntities.add(attribute);
-		});
 		cabinEntity.setCabinAttributes(attributeEntities);
 		return cabinConverter.toDto(cabinRepository.update(cabinEntity));
 	}
@@ -104,6 +82,17 @@ public class CabinService {
 		CabinEntity cabin = cabinRepository.findOptionalById(id)
 				.orElseThrow(() -> new NotFoundException(ExceptionMessage.CABIN_NOT_FOUND.getMessage()));
 		cabinRepository.delete(cabin);
+	}
+
+	private List<AttributeEntity> validateAttributes(CabinDto cabin) {
+		List<Integer> cabinAttributeIds = cabin.getAttributes().stream().map(attributeDto -> attributeDto.getId())
+				.collect(Collectors.toList());
+		List<AttributeEntity> cabinAttributes = attributeRepository.findByIdsAndType(cabinAttributeIds,
+				AttributeType.CABIN);
+		if (cabin.getAttributes().size() != cabinAttributes.size()) {
+			throw new BadRequestException(BadRequestMessage.INPUT_INVALID.getMessage());
+		}
+		return cabinAttributes;
 	}
 
 }
