@@ -8,5 +8,6 @@ public class Routes {
 	public static final String ID = "id";
 	public static final String TYPE = "type";
 	public static final String CABINS = "cabins";
+	public static final String USERS = "users";
 
 }
