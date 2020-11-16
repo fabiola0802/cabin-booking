@@ -3,15 +3,12 @@ package com.ikubinfo.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.ikubinfo.enums.Role;
 import com.ikubinfo.utils.messages.ValidationMessage;
 
-@JsonInclude(Include.NON_NULL)
-public class UserDto extends BaseDto {
+public class UserUpdateDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
+
 	@NotNull(message = ValidationMessage.NAME_NOT_NULL)
 	@Pattern(regexp = "^[a-zA-Z]{3,15}", message = ValidationMessage.NAME_FORMAT)
 	private String name;
@@ -24,11 +21,7 @@ public class UserDto extends BaseDto {
 	@NotNull(message = ValidationMessage.USERNAME_NOT_NULL)
 	@Pattern(regexp = "^[a-zA-Z0-9]{3,15}", message = ValidationMessage.USERNAME_FORMAT)
 	private String username;
-	@NotNull(message = ValidationMessage.PASSWORD_NOT_NULL)
-	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,20}$", message = ValidationMessage.PASSWORD_FORMAT)
-	private String password;
-
-	private Role role;
+	
 
 	public String getName() {
 		return name;
@@ -60,22 +53,6 @@ public class UserDto extends BaseDto {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
 	}
 
 }

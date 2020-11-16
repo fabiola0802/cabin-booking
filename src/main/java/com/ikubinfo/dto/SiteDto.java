@@ -6,13 +6,17 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.ikubinfo.utils.messages.ValidationMessage;
+@JsonInclude(Include.NON_NULL)
 public class SiteDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotNull
-	@Min(value = 1000, message = "code should be with 4 digits")
-	@Max(value = 9999, message = "code should be with 4 digits")
+	@NotNull(message = ValidationMessage.SITE_NOT_NULL)
+	@Min(value = 1000, message = ValidationMessage.SITE_CODE_SIZE)
+	@Max(value = 9999, message = ValidationMessage.SITE_CODE_SIZE)
 	private Integer code;
 	private String description;
 	private String location;

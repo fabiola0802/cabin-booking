@@ -3,6 +3,7 @@ package com.ikubinfo.converter;
 import org.springframework.stereotype.Component;
 
 import com.ikubinfo.dto.UserDto;
+import com.ikubinfo.dto.UserUpdateDto;
 import com.ikubinfo.entities.UserEntity;
 
 @Component
@@ -16,6 +17,7 @@ public class UserConverter implements BaseConverter<UserEntity, UserDto> {
 		user.setUsername(dto.getUsername());
 		user.setEmail(dto.getEmail());
 		user.setPassword(dto.getPassword());
+		user.setRole(dto.getRole());
 		return user;
 	}
 
@@ -26,8 +28,17 @@ public class UserConverter implements BaseConverter<UserEntity, UserDto> {
 		userDto.setName(entity.getName());
 		userDto.setSurname(entity.getSurname());
 		userDto.setUsername(entity.getUsername());
-		userDto.setPassword(entity.getPassword());
+		userDto.setEmail(entity.getEmail());
 		return userDto;
 	}
 
+	public UserEntity toEntity(UserUpdateDto dto) {
+		UserEntity user = new UserEntity();
+		user.setName(dto.getName());
+		user.setSurname(dto.getSurname());
+		user.setUsername(dto.getUsername());
+		user.setEmail(dto.getEmail());
+		return user;
+
+	}
 }
