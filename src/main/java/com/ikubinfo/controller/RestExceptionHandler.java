@@ -24,11 +24,14 @@ import com.ikubinfo.utils.CustomErrorResponse;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(value = { BadRequestException.class, ValidationException.class, PersistenceException.class })
+	@ExceptionHandler(value = { BadRequestException.class, ValidationException.class })
 	protected ResponseEntity<CustomErrorResponse> handleBadRequestException(RuntimeException ex) {
 		return generateResponse(ex, HttpStatus.BAD_REQUEST);
 	}
-
+	@ExceptionHandler(value = { PersistenceException.class })
+	protected ResponseEntity<CustomErrorResponse> handlePersistenceException(PersistenceException ex) {
+		return generateResponse("There was a problem saving data", HttpStatus.BAD_REQUEST);
+	}
 	@ExceptionHandler(value = { NotFoundException.class })
 	protected ResponseEntity<CustomErrorResponse> handleNotFoundException(NotFoundException ex) {
 		return generateResponse(ex, HttpStatus.NOT_FOUND);
