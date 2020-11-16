@@ -62,16 +62,16 @@ public class CabinService {
 		cabinRepository.findOptionalById(id)
 				.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.CABIN_NOT_FOUND));
 		cabinToBeUpdated.setId(id);
-			SiteEntity site = siteRepository.findOptionalById(cabinToBeUpdated.getSite().getId())
-					.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.SITE_NOT_FOUND));
-		if (!cabinRepository.cabinNumberExists(cabinToBeUpdated.getCabinNumber(), site.getId(),  id)) {
-			List<AttributeEntity> attributeEntities = validateAttributes(cabinToBeUpdated);
-			CabinEntity cabinEntity = cabinConverter.toEntity(cabinToBeUpdated);
-			cabinEntity.setSite(site);
-			cabinEntity.setCabinAttributes(attributeEntities);
-			return cabinConverter.toDto(cabinRepository.update(cabinEntity));
+		SiteEntity site = siteRepository.findOptionalById(cabinToBeUpdated.getSite().getId())
+				.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.SITE_NOT_FOUND));
+		if (cabinRepository.cabinNumberExists(cabinToBeUpdated.getCabinNumber(), site.getId(), id)) {
+			throw new ValidationException(ValidationMessage.CABIN_NUMBER_EXISTS);
 		}
-		throw new ValidationException(ValidationMessage.CABIN_NUMBER_EXISTS);
+		List<AttributeEntity> attributeEntities = validateAttributes(cabinToBeUpdated);
+		CabinEntity cabinEntity = cabinConverter.toEntity(cabinToBeUpdated);
+		cabinEntity.setSite(site);
+		cabinEntity.setCabinAttributes(attributeEntities);
+		return cabinConverter.toDto(cabinRepository.update(cabinEntity));
 	}
 
 	public List<CabinDto> getCabins() {

@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.PersistenceException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ import com.ikubinfo.utils.CustomErrorResponse;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(value = { BadRequestException.class, ValidationException.class })
+	@ExceptionHandler(value = { BadRequestException.class, ValidationException.class, PersistenceException.class })
 	protected ResponseEntity<CustomErrorResponse> handleBadRequestException(RuntimeException ex) {
 		return generateResponse(ex, HttpStatus.BAD_REQUEST);
 	}
@@ -56,7 +58,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 		List<String> errors = ex.getBindingResult().getFieldErrors().stream().map(x -> x.getDefaultMessage())
 				.collect(Collectors.toList());
-//		String.join(",", errors);
 		response.setStatus(status.value());
 		response.setTimestamp(LocalDateTime.now());
 		response.setMessage(errors);
