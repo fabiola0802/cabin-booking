@@ -74,12 +74,12 @@ public class SiteService {
 				.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.SITE_NOT_FOUND));
 		siteToBeUpdated.setId(id);
 		if (siteRepository.codeExists(siteToBeUpdated.getCode(), id)) {
-			List<AttributeEntity> attributeEntities = validateAttribute(siteToBeUpdated);
-			site = siteConverter.toEntity(siteToBeUpdated);
-			site.setSiteAttributes(attributeEntities);
-			return siteConverter.toDto(siteRepository.update(site));
+			throw new ValidationException(ValidationMessage.SITE_CODE_EXISTS);
 		}
-		throw new ValidationException(ValidationMessage.SITE_CODE_EXISTS);
+		List<AttributeEntity> attributeEntities = validateAttribute(siteToBeUpdated);
+		site = siteConverter.toEntity(siteToBeUpdated);
+		site.setSiteAttributes(attributeEntities);
+		return siteConverter.toDto(siteRepository.update(site));
 	}
 
 	private List<AttributeEntity> validateAttribute(SiteDto site) {
