@@ -6,70 +6,79 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.ikubinfo.utils.messages.ValidationMessage;
+
+@JsonInclude(Include.NON_NULL)
 public class CabinDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
-	@NotNull
-	@Min(value = 100, message = "cabin number should be with 3 digits")
-	@Max(value = 999, message = "cabin number should be with 3 digits")
-	private int cabinNumber;
-	@NotNull
-	@Min(value = 1, message = "Cabin should have at least 1 floor")
-	@Max(value = 2, message = "Cabin cannot have more than 2 floors")
-	private int numberOfFloors;
-	private int numberOfKitchens;
-	private int numberOfBathrooms;
-	private int numberOfBedrooms;
-	private int maxCapacity;
-	private double price;
+	@NotNull(message = ValidationMessage.CABIN_NOT_NULL)
+	@Min(value = 100, message = ValidationMessage.CABIN_NUMBER_SIZE)
+	@Max(value = 999, message = ValidationMessage.CABIN_NUMBER_SIZE)
+	private Integer cabinNumber;
+	@NotNull(message = ValidationMessage.NUMBER_OF_FLOORS_NOT_NULL)
+	@Min(value = 1, message = ValidationMessage.FLOOR_NUMBER_MIN)
+	@Max(value = 2, message = ValidationMessage.FLOOR_NUMBER_MAX)
+	private Integer numberOfFloors;
+	private Integer numberOfKitchens;
+	@NotNull(message = ValidationMessage.NUMBER_OF_BATHROOMS_NOT_NULL)
+	private Integer numberOfBathrooms;
+	@NotNull(message = ValidationMessage.NUMBER_OF_BEDROOMS_NOT_NULL)
+	private Integer numberOfBedrooms;
+	@NotNull(message = ValidationMessage.MAX_CAPACITY_NOT_NULL)
+	private Integer maxCapacity;
+	@NotNull(message = ValidationMessage.PRICE_NOT_NULL)
+	private Double price;
 	private SiteDto site;
 	private List<AttributeDto> attributes;
 
-	public int getCabinNumber() {
+	public Integer getCabinNumber() {
 		return cabinNumber;
 	}
 
-	public void setCabinNumber(int cabinNumber) {
+	public void setCabinNumber(Integer cabinNumber) {
 		this.cabinNumber = cabinNumber;
 	}
 
-	public int getNumberOfFloors() {
+	public Integer getNumberOfFloors() {
 		return numberOfFloors;
 	}
 
-	public void setNumberOfFloors(int numberOfFloors) {
+	public void setNumberOfFloors(Integer numberOfFloors) {
 		this.numberOfFloors = numberOfFloors;
 	}
 
-	public int getNumberOfKitchens() {
+	public Integer getNumberOfKitchens() {
 		return numberOfKitchens;
 	}
 
-	public void setNumberOfKitchens(int numberOfKitchens) {
+	public void setNumberOfKitchens(Integer numberOfKitchens) {
 		this.numberOfKitchens = numberOfKitchens;
 	}
 
-	public int getNumberOfBathrooms() {
+	public Integer getNumberOfBathrooms() {
 		return numberOfBathrooms;
 	}
 
-	public void setNumberOfBathrooms(int numberOfBathrooms) {
+	public void setNumberOfBathrooms(Integer numberOfBathrooms) {
 		this.numberOfBathrooms = numberOfBathrooms;
 	}
 
-	public int getNumberOfBedrooms() {
+	public Integer getNumberOfBedrooms() {
 		return numberOfBedrooms;
 	}
 
-	public void setNumberOfBedrooms(int numberOfBedrooms) {
+	public void setNumberOfBedrooms(Integer numberOfBedrooms) {
 		this.numberOfBedrooms = numberOfBedrooms;
 	}
 
-	public int getMaxCapacity() {
+	public Integer getMaxCapacity() {
 		return maxCapacity;
 	}
 
-	public void setMaxCapacity(int maxCapacity) {
+	public void setMaxCapacity(Integer maxCapacity) {
 		this.maxCapacity = maxCapacity;
 	}
 
@@ -89,11 +98,11 @@ public class CabinDto extends BaseDto {
 		this.attributes = attributes;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

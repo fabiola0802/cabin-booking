@@ -39,6 +39,11 @@ public class UserController {
 		return ResponseEntity.ok(userService.addUser(user));
 	}
 
+	@PostMapping(value = Routes.REGISTER)
+	public ResponseEntity<UserDto> register(@Valid @RequestBody UserDto user) {
+		return ResponseEntity.ok(userService.addUser(user));
+	}
+
 	@DeleteMapping(value = Routes.BY_ID)
 	public ResponseEntity<Void> deleteUser(@PathVariable(value = Routes.ID) Integer id) {
 		userService.deleteUser(id);

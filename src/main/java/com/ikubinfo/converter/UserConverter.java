@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import com.ikubinfo.dto.UserDto;
 import com.ikubinfo.dto.UserUpdateDto;
 import com.ikubinfo.entities.UserEntity;
-import com.ikubinfo.enums.Role;
 
 @Component
 public class UserConverter implements BaseConverter<UserEntity, UserDto> {
@@ -18,7 +17,7 @@ public class UserConverter implements BaseConverter<UserEntity, UserDto> {
 		user.setUsername(dto.getUsername());
 		user.setEmail(dto.getEmail());
 		user.setPassword(dto.getPassword());
-		user.setRole(Role.CUSTOMER);
+		user.setRole(dto.getRole());
 		return user;
 	}
 
@@ -33,20 +32,13 @@ public class UserConverter implements BaseConverter<UserEntity, UserDto> {
 		return userDto;
 	}
 
-	public UserEntity toUpdateEntity(UserEntity entity, UserUpdateDto dto) {
-		if (dto.getName() != null) {
-			entity.setName(dto.getName());
-		}
-		if (dto.getSurname() != null) {
-			entity.setSurname(dto.getSurname());
-		}
-		if (dto.getUsername() != null) {
-			entity.setUsername(dto.getUsername());
-		}
-		if (dto.getEmail() != null) {
-			entity.setEmail(dto.getEmail());
-		}
-		return entity;
+	public UserEntity toEntity(UserUpdateDto dto) {
+		UserEntity user = new UserEntity();
+		user.setName(dto.getName());
+		user.setSurname(dto.getSurname());
+		user.setUsername(dto.getUsername());
+		user.setEmail(dto.getEmail());
+		return user;
 
 	}
 }

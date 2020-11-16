@@ -13,32 +13,32 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "cabin", uniqueConstraints = @UniqueConstraint(columnNames = { "cabin_number" }))
+@Table(name = "cabin", uniqueConstraints = @UniqueConstraint(columnNames = { "cabin_number", "site_id" }))
 public class CabinEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "cabin_number", nullable = false)
-	private int cabinNumber;
+	private Integer cabinNumber;
 
 	@Column(name = "number_of_floors", nullable = false)
-	private int numberOfFloors;
+	private Integer numberOfFloors;
 
 	@Column(name = "number_of_kitchens", nullable = false)
-	private int numberOfKitchens;
+	private Integer numberOfKitchens;
 
 	@Column(name = "number_of_bathrooms", nullable = false)
-	private int numberOfBathrooms;
+	private Integer numberOfBathrooms;
 
 	@Column(name = "number_of_bedrooms", nullable = false)
-	private int numberOfBedrooms;
+	private Integer numberOfBedrooms;
 
 	@Column(name = "max_capacity", nullable = false)
-	private int maxCapacity;
+	private Integer maxCapacity;
 
 	@Column(name = "price", nullable = false)
-	private double price;
-	
+	private Double price;
+
 	@ManyToOne
 	@JoinColumn(name = "site_id")
 	private SiteEntity site;
@@ -50,44 +50,52 @@ public class CabinEntity extends BaseEntity {
 	@OneToMany(mappedBy = "cabin")
 	private List<BookingEntity> bookings;
 
-	public int getCabinNumber() {
+	public Integer getCabinNumber() {
 		return cabinNumber;
 	}
 
-	public void setCabinNumber(int cabinNumber) {
+	public void setCabinNumber(Integer cabinNumber) {
 		this.cabinNumber = cabinNumber;
 	}
 
-	public int getNumberOfFloors() {
+	public Integer getNumberOfFloors() {
 		return numberOfFloors;
 	}
 
-	public void setNumberOfFloors(int numberOfFloors) {
+	public void setNumberOfFloors(Integer numberOfFloors) {
 		this.numberOfFloors = numberOfFloors;
 	}
 
-	public int getNumberOfKitchens() {
+	public Integer getNumberOfKitchens() {
 		return numberOfKitchens;
 	}
 
-	public void setNumberOfKitchens(int numberOfKitchens) {
+	public void setNumberOfKitchens(Integer numberOfKitchens) {
 		this.numberOfKitchens = numberOfKitchens;
 	}
 
-	public int getNumberOfBathrooms() {
+	public Integer getNumberOfBathrooms() {
 		return numberOfBathrooms;
 	}
 
-	public void setNumberOfBathrooms(int numberOfBathrooms) {
+	public void setNumberOfBathrooms(Integer numberOfBathrooms) {
 		this.numberOfBathrooms = numberOfBathrooms;
 	}
 
-	public int getNumberOfBedrooms() {
+	public Integer getNumberOfBedrooms() {
 		return numberOfBedrooms;
 	}
 
-	public void setNumberOfBedrooms(int numberOfBedrooms) {
+	public void setNumberOfBedrooms(Integer numberOfBedrooms) {
 		this.numberOfBedrooms = numberOfBedrooms;
+	}
+
+	public Integer getMaxCapacity() {
+		return maxCapacity;
+	}
+
+	public void setMaxCapacity(Integer maxCapacity) {
+		this.maxCapacity = maxCapacity;
 	}
 
 	public List<BookingEntity> getBookings() {
@@ -96,14 +104,6 @@ public class CabinEntity extends BaseEntity {
 
 	public void setBookings(List<BookingEntity> bookings) {
 		this.bookings = bookings;
-	}
-
-	public int getMaxCapacity() {
-		return maxCapacity;
-	}
-
-	public void setMaxCapacity(int maxCapacity) {
-		this.maxCapacity = maxCapacity;
 	}
 
 	public SiteEntity getSite() {
@@ -121,12 +121,12 @@ public class CabinEntity extends BaseEntity {
 	public void setCabinAttributes(List<AttributeEntity> cabinAttributes) {
 		this.cabinAttributes = cabinAttributes;
 	}
-	
-	public double getPrice() {
+
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

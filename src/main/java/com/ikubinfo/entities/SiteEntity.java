@@ -9,15 +9,16 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "site")
+@Table(name = "site", uniqueConstraints = @UniqueConstraint(columnNames = { "code" }))
 public class SiteEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	@Column(nullable = false)
-	private int code;
+	private Integer code;
 
 	@Column
 	private String description;
@@ -32,11 +33,11 @@ public class SiteEntity extends BaseEntity {
 	@JoinTable(name = "site_attribute", joinColumns = @JoinColumn(name = "site_id"), inverseJoinColumns = @JoinColumn(name = "attribute_id"))
 	private List<AttributeEntity> siteAttributes;
 
-	public int getCode() {
+	public Integer getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(Integer code) {
 		this.code = code;
 	}
 

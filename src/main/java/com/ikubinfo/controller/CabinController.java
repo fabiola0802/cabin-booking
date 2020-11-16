@@ -28,7 +28,7 @@ public class CabinController {
 	private CabinService cabinService;
 
 	@PostMapping
-	public ResponseEntity<CabinDto> createCabin(@RequestBody CabinDto cabin) {
+	public ResponseEntity<CabinDto> createCabin(@Valid @RequestBody CabinDto cabin) {
 		return ResponseEntity.ok(cabinService.createCabin(cabin));
 	}
 

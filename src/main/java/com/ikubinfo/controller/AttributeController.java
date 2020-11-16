@@ -29,14 +29,14 @@ public class AttributeController {
 	private AttributeService attributeService;
 
 	@GetMapping
-	public ResponseEntity<List<AttributeDto>> getAttributes(@RequestParam(value = Routes.TYPE, required = false) String type) {
+	public ResponseEntity<List<AttributeDto>> getAttributes(
+			@RequestParam(value = Routes.TYPE, required = false) String type) {
 		return ResponseEntity.ok(attributeService.filterAttributesByType(type));
 	}
 
 	@GetMapping(value = Routes.BY_ID)
 	public ResponseEntity<AttributeDto> findAttributeById(@PathVariable(value = Routes.ID) int id) {
 		return ResponseEntity.ok(attributeService.getAttributeById(id));
-
 	}
 
 	@PostMapping
@@ -48,7 +48,6 @@ public class AttributeController {
 	public ResponseEntity<AttributeDto> updateAttribute(@PathVariable(value = Routes.ID) int id,
 			@Valid @RequestBody AttributeDto attributeToBeUpdated) {
 		return ResponseEntity.ok(attributeService.updateAttribute(id, attributeToBeUpdated));
-
 	}
 
 	@DeleteMapping(value = Routes.BY_ID)
@@ -56,5 +55,4 @@ public class AttributeController {
 		attributeService.deleteAttribute(id);
 		return ResponseEntity.noContent().build();
 	}
-
 }

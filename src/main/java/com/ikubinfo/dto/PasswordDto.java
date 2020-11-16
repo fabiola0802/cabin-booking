@@ -1,15 +1,20 @@
 package com.ikubinfo.dto;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.ikubinfo.utils.messages.ValidationMessage;
+
 public class PasswordDto {
-	@NotEmpty
+	@NotNull(message = ValidationMessage.PASSWORD_NOT_NULL)
 	private String oldPassword;
 
-	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,20}$", 
-	message = "Password should contain at least 6 characters, at least one lowercase letter at least one uppercase letter, at least a number and a special character, and no spaces allowed")
+	@NotNull(message = ValidationMessage.PASSWORD_NOT_NULL)
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,20}$", message = ValidationMessage.PASSWORD_FORMAT)
 	private String newPassword;
+	
+	
+	private String confirmPassword;
 
 	public String getOldPassword() {
 		return oldPassword;
@@ -26,5 +31,15 @@ public class PasswordDto {
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
 	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+	
+	
 
 }
