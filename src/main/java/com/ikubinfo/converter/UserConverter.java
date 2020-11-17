@@ -12,6 +12,7 @@ public class UserConverter implements BaseConverter<UserEntity, UserDto> {
 	@Override
 	public UserEntity toEntity(UserDto dto) {
 		UserEntity user = new UserEntity();
+		user.setId(dto.getId());
 		user.setName(dto.getName());
 		user.setSurname(dto.getSurname());
 		user.setUsername(dto.getUsername());

@@ -19,7 +19,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ikubinfo.utils.AppProperties;
 
 @Configuration
@@ -45,8 +47,10 @@ public class WebConfig implements WebMvcConfigurer {
 		hibernate5Module.disable(Hibernate5Module.Feature.FORCE_LAZY_LOADING);
 		hibernate5Module.disable(Hibernate5Module.Feature.USE_TRANSIENT_ANNOTATION);
 
+		
 		jbuilder.modules(hibernate5Module);
-
+		jbuilder.modules(new JavaTimeModule()).featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+	
 		return jbuilder;
 	}
 
@@ -59,6 +63,7 @@ public class WebConfig implements WebMvcConfigurer {
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(new ResourceHttpMessageConverter());
 		converters.add(new MappingJackson2HttpMessageConverter(objectMapper()));
+
 	}
 
 	@Bean

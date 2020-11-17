@@ -45,4 +45,16 @@ public class CabinConverter implements BaseConverter<CabinEntity, CabinDto> {
 		return cabinDto;
 	}
 
+	public CabinDto toBaseDto(CabinEntity entity) {
+		CabinDto cabinDto = new CabinDto();
+		cabinDto.setCabinNumber(entity.getCabinNumber());
+		cabinDto.setId(entity.getId());
+		cabinDto.setMaxCapacity(entity.getMaxCapacity());
+		cabinDto.setNumberOfFloors(entity.getNumberOfFloors());
+		cabinDto.setNumberOfKitchens(entity.getNumberOfKitchens());
+		cabinDto.setNumberOfBathrooms(entity.getNumberOfBathrooms());
+		cabinDto.setNumberOfBedrooms(entity.getNumberOfBedrooms());
+		cabinDto.setPrice(entity.getPrice());
+		return cabinDto;
+	}
 }

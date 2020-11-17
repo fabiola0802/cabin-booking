@@ -22,7 +22,6 @@ public class BookingConverter implements BaseConverter<BookingEntity, BookingDto
 		booking.setCheckOutDate(dto.getCheckOutDate());
 		booking.setNumberOfPeople(dto.getNumberOfPeople());
 		booking.setUser(userConverter.toEntity(dto.getUser()));
-		booking.setCabin(cabinConverter.toEntity(dto.getCabin()));
 		return booking;
 	}
 
@@ -36,7 +35,7 @@ public class BookingConverter implements BaseConverter<BookingEntity, BookingDto
 		bookingDto.setCheckOutDate(entity.getCheckOutDate());
 		bookingDto.setNumberOfPeople(entity.getNumberOfPeople());
 		bookingDto.setUser(userConverter.toDto(entity.getUser()));
-		bookingDto.setCabin(cabinConverter.toDto(entity.getCabin()));
+		bookingDto.setCabin(cabinConverter.toBaseDto(entity.getCabin()));
 		return bookingDto;
 	}
 

@@ -9,7 +9,7 @@ public class BookingDto extends BaseDto {
 	private LocalDate bookingDate;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
-	private int numberOfPeople;
+	private Integer numberOfPeople;
 	private UserDto user;
 	private CabinDto cabin;
 
@@ -37,11 +37,11 @@ public class BookingDto extends BaseDto {
 		this.checkInDate = checkInDate;
 	}
 
-	public int getNumberOfPeople() {
+	public Integer getNumberOfPeople() {
 		return numberOfPeople;
 	}
 
-	public void setNumberOfPeople(int numberOfPeople) {
+	public void setNumberOfPeople(Integer numberOfPeople) {
 		this.numberOfPeople = numberOfPeople;
 	}
 
