@@ -17,6 +17,7 @@ public class BookingConverter implements BaseConverter<BookingEntity, BookingDto
 	@Override
 	public BookingEntity toEntity(BookingDto dto) {
 		BookingEntity booking = new BookingEntity();
+		booking.setId(dto.getId());
 		booking.setBookingDate(dto.getBookingDate());
 		booking.setCheckInDate(dto.getCheckInDate());
 		booking.setCheckOutDate(dto.getCheckOutDate());
@@ -24,7 +25,6 @@ public class BookingConverter implements BaseConverter<BookingEntity, BookingDto
 		booking.setUser(userConverter.toEntity(dto.getUser()));
 		return booking;
 	}
-
 
 	@Override
 	public BookingDto toDto(BookingEntity entity) {

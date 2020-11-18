@@ -1,6 +1,7 @@
 package com.ikubinfo.service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ikubinfo.converter.BookingConverter;
 import com.ikubinfo.dto.BookingDto;
+import com.ikubinfo.dto.UserDto;
 import com.ikubinfo.entities.BookingEntity;
 import com.ikubinfo.entities.CabinEntity;
 import com.ikubinfo.exceptions.BadRequestException;
@@ -39,20 +41,71 @@ public class BookingService {
 		if (bookingDto.getId() != null) {
 			throw new ValidationException(ValidationMessage.DATA_NOT_VALID);
 		}
-		bookingDto.setUser(userService.getCurrentUser(loggedUserId));
-		bookingDto.setBookingDate(LocalDate.now());
 		CabinEntity cabin = cabinRepository.findOptionalById(bookingDto.getCabin().getId())
 				.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.CABIN_NOT_FOUND));
-		if (bookingDto.getCheckInDate().isBefore(bookingDto.getBookingDate())
-				|| bookingDto.getCheckInDate().isAfter(bookingDto.getCheckOutDate())) {
-			throw new BadRequestException(BadRequestMessage.WRONG_DATES);
-		}
+		bookingDto.setBookingDate(LocalDate.now());
+		validatingDates(bookingDto);
 		if (bookingRepository.cabinBooked(bookingDto.getCabin().getId(), bookingDto.getCheckInDate(),
 				bookingDto.getCheckOutDate())) {
 			throw new BadRequestException(BadRequestMessage.CABIN_ALREADY_BOOKED);
 		}
-		BookingEntity booking  = bookingConverter.toEntity(bookingDto);
+		bookingDto.setUser(userService.getCurrentUser(loggedUserId));
+		BookingEntity booking = bookingConverter.toEntity(bookingDto);
 		booking.setCabin(cabin);
 		return bookingConverter.toDto(bookingRepository.save(booking));
+	}
+
+	public List<BookingDto> getAllBookingsOfACabin(Integer id) {
+		if (id <= 0) {
+			throw new ValidationException(ValidationMessage.ID_NOT_VALID);
+		}
+		cabinRepository.findOptionalById(id)
+				.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.CABIN_NOT_FOUND));
+		return bookingConverter.toDtos(bookingRepository.getAllBookingsOfCabin(id));
+	}
+
+	public void deleteBooking(Integer loggedUserId, Integer id) {
+		BookingEntity booking = bookingRepository.findOptionalById(id)
+				.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.BOOKING_NOT_FOUND));
+		UserDto user = userService.getCurrentUser(loggedUserId);
+		if (!user.getId().equals(booking.getUser().getId())) {
+			throw new BadRequestException(BadRequestMessage.WRONG_USER);
+		}
+		if(LocalDate.now().compareTo(booking.getCheckInDate().minusDays(3))>0) {
+			throw new BadRequestException(BadRequestMessage.BOOKING_CAN_NOT_BE_CANCELLED);
+		}
+		bookingRepository.delete(booking);
+	}
+
+	public BookingDto updateBooking(Integer id, Integer loggedUserId, BookingDto bookingDto) {
+		if (id <= 0) {
+			throw new ValidationException(ValidationMessage.ID_NOT_VALID);
+		}
+		BookingEntity booking = bookingRepository.findOptionalById(id)
+				.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.BOOKING_NOT_FOUND));
+		CabinEntity cabin = cabinRepository.findOptionalById(bookingDto.getCabin().getId())
+				.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.CABIN_NOT_FOUND));
+		bookingDto.setBookingDate(LocalDate.now());
+		validatingDates(bookingDto);
+		if (bookingRepository.cabinBooked(cabin.getId(), booking.getId(), bookingDto.getCheckInDate(),
+				bookingDto.getCheckOutDate())){
+			throw new BadRequestException(BadRequestMessage.CABIN_ALREADY_BOOKED);
+		}
+		UserDto user = userService.getCurrentUser(loggedUserId);
+		if (!user.getId().equals(booking.getUser().getId())) {
+			throw new BadRequestException(BadRequestMessage.WRONG_USER);
+		}
+		bookingDto.setId(id);
+		bookingDto.setUser(user);
+		BookingEntity bookingEntity = bookingConverter.toEntity(bookingDto);
+		bookingEntity.setCabin(cabin);
+		return bookingConverter.toDto(bookingRepository.update(bookingEntity));
+	}
+
+	private void validatingDates(BookingDto bookingDto) {
+		if (bookingDto.getCheckInDate().isBefore(bookingDto.getBookingDate())
+				|| bookingDto.getCheckInDate().isAfter(bookingDto.getCheckOutDate())) {
+			throw new BadRequestException(BadRequestMessage.WRONG_DATES);
+		}
 	}
 }

@@ -7,5 +7,6 @@ public class NotFoundExceptionMessage {
 	public static final String ATTRIBUTE_NOT_FOUND = "Attribute  not found";
 	public static final String CABIN_NOT_FOUND = "Cabin not found";
 	public static final String USER_NOT_FOUND = "User not found";
+	public static final String BOOKING_NOT_FOUND ="Booking not found";
 
 }

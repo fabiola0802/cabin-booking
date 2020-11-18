@@ -73,14 +73,13 @@ public class UserService {
 		UserEntity user = userRepository.findOptionalById(id)
 				.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.USER_NOT_FOUND));
 		userToBeUpdated.setId(id);
-
 		if (userRepository.usernameExists(userToBeUpdated.getUsername(), id)) {
 			throw new ValidationException(ValidationMessage.USERNAME_EXISTS);
 		}
 		UserEntity userUpd = userConverter.toEntity(userToBeUpdated);
 		userUpd.setPassword(user.getPassword());
 		userUpd.setRole(user.getRole());
-		return userConverter.toDto(userRepository.update(userConverter.toEntity(userToBeUpdated)));
+		return userConverter.toDto(userRepository.update(userUpd));
 	}
 
 	public void changePassword(Integer id, PasswordDto passwordDto) {
