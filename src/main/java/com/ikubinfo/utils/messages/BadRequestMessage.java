@@ -8,5 +8,9 @@ public class BadRequestMessage {
 	public static final String PASSWORDS_DO_NOT_MATCH = "Wrong old password";
 	public static final String WRONG_PASSWORD = "Password can't be same as the old one";
 	public static final String WRONG_CONFIRM_PASSWORD = "Confirm password doesn't match with new password";
+	public static final String CABIN_ALREADY_BOOKED = "The cabin is already reserved for the dates you are requesting";
+	public static final String WRONG_DATES = "Please check dates!";
+	public static final String WRONG_USER = "You are not allowed to cancel this booking";
+	public static final String BOOKING_CAN_NOT_BE_CANCELLED = "Booking can't be cancelled three days before the check in date";
 
 }
