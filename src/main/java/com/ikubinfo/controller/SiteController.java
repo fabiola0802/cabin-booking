@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,28 +29,33 @@ public class SiteController {
 	private SiteService siteService;
 
 	@GetMapping
+	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
 	public ResponseEntity<List<SiteDto>> getAllSites() {
 		return ResponseEntity.ok(siteService.getAllSites());
 	}
 
 	@GetMapping(value = Routes.BY_ID)
+	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
 	public ResponseEntity<SiteDto> getSiteById(@PathVariable(value = Routes.ID) int id) {
 		return ResponseEntity.ok(siteService.findSiteById(id));
 
 	}
 
 	@PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<SiteDto> addSite(@Valid @RequestBody SiteDto siteToBeCreated) {
 		return ResponseEntity.ok(siteService.addSite(siteToBeCreated));
 	}
 
 	@PutMapping(value = Routes.BY_ID)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<SiteDto> updateSite(@PathVariable(value = Routes.ID) int id,
 			@Valid @RequestBody SiteDto siteToBeUpdated) {
 		return ResponseEntity.ok(siteService.updateSite(id, siteToBeUpdated));
 	}
 
 	@DeleteMapping(value = Routes.BY_ID)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Void> deleteSite(@PathVariable(value = Routes.ID) int id) {
 		siteService.deleteSite(id);
 		return ResponseEntity.noContent().build();

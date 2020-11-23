@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,27 +29,32 @@ public class CabinController {
 	private CabinService cabinService;
 
 	@PostMapping
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<CabinDto> createCabin(@Valid @RequestBody CabinDto cabin) {
 		return ResponseEntity.ok(cabinService.createCabin(cabin));
 	}
 
 	@GetMapping
+	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
 	public ResponseEntity<List<CabinDto>> getCabins() {
 		return ResponseEntity.ok(cabinService.getCabins());
 	}
 
 	@DeleteMapping(value = Routes.BY_ID)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Void> deleteCabin(@PathVariable(value = Routes.ID) Integer id) {
 		cabinService.deleteCabin(id);
 		return ResponseEntity.noContent().build();
 	}
 
 	@GetMapping(value = Routes.BY_ID)
+	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
 	public ResponseEntity<CabinDto> getCabinById(@PathVariable(value = Routes.ID) Integer id) {
 		return ResponseEntity.ok(cabinService.getCabinById(id));
 	}
 
 	@PutMapping(value = Routes.BY_ID)
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<CabinDto> updateCabin(@PathVariable(value = Routes.ID) Integer id,
 			@Valid @RequestBody CabinDto cabinToBeUpdated) {
 		return ResponseEntity.ok(cabinService.updateCabin(id, cabinToBeUpdated));
