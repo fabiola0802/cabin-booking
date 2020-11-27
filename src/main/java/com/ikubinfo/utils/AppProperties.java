@@ -29,4 +29,5 @@ public final class AppProperties {
 	public static final String PACKAGE_SERVICE = PACKAGE_BASE + ".service";
 	public static final String PACKAGE_REPOSITORY = PACKAGE_BASE + ".repository";
 	public static final String PACKAGE_ENTITIES = PACKAGE_BASE + ".entities";
+	public static final String JWTPROVIDER = "classpath:application.properties";
 }

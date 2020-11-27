@@ -1,5 +1,6 @@
 package com.ikubinfo.repository;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -23,7 +24,7 @@ public class UserRepository extends BaseRepository<UserEntity> {
 		query.where(builder.equal(root.get("username"), username));
 		return entityManager.createQuery(query).getSingleResult() != 0;
 	}
-	
+
 	public boolean usernameExists(String username, Integer id) {
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);
@@ -32,5 +33,18 @@ public class UserRepository extends BaseRepository<UserEntity> {
 		query.where(builder.equal(root.get("username"), username), builder.notEqual(root.get("id"), id));
 		return entityManager.createQuery(query).getSingleResult() != 0;
 	}
-	
+
+	public UserEntity findByUsername(String username) {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<UserEntity> query = builder.createQuery(UserEntity.class);
+		Root<UserEntity> root = query.from(UserEntity.class);
+		query.select(root);
+		query.where(builder.equal(root.get("username"), username));
+		try {
+			return entityManager.createQuery(query).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+
+	}
 }

@@ -11,5 +11,8 @@ public class Routes {
 	public static final String USERS = "users";
 	public static final String REGISTER = "/register";
 	public static final String BOOKINGS = "bookings";
+	public static final String API = "api";
+	public static final String LOGIN = "/login";
+	
 
 }
