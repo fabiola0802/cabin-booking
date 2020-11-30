@@ -6,18 +6,20 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.ikubinfo.converter.SiteConverter;
 import com.ikubinfo.dto.SiteDto;
+import com.ikubinfo.dto.SiteFilter;
 import com.ikubinfo.entities.AttributeEntity;
 import com.ikubinfo.entities.SiteEntity;
 import com.ikubinfo.enums.AttributeType;
-import com.ikubinfo.utils.messages.BadRequestMessage;
-import com.ikubinfo.utils.messages.NotFoundExceptionMessage;
 import com.ikubinfo.exceptions.BadRequestException;
 import com.ikubinfo.exceptions.NotFoundException;
 import com.ikubinfo.exceptions.ValidationException;
 import com.ikubinfo.repository.AttributeRepository;
 import com.ikubinfo.repository.SiteRepository;
+import com.ikubinfo.utils.messages.BadRequestMessage;
+import com.ikubinfo.utils.messages.NotFoundExceptionMessage;
 import com.ikubinfo.utils.messages.ValidationMessage;
 
 @Service
@@ -33,8 +35,8 @@ public class SiteService {
 	@Autowired
 	private AttributeRepository attributeRepository;
 
-	public List<SiteDto> getAllSites() {
-		return siteConverter.toDtos(siteRepository.getAll());
+	public List<SiteDto> getSites(SiteFilter siteFilter) {
+		return siteConverter.toDtos(siteRepository.getSites(siteFilter));
 	}
 
 	public SiteDto addSite(SiteDto siteToBeAdded) {

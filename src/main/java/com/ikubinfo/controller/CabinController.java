@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ikubinfo.dto.CabinDto;
+import com.ikubinfo.dto.CabinFilter;
 import com.ikubinfo.service.CabinService;
 import com.ikubinfo.utils.Routes;
 
@@ -36,8 +38,20 @@ public class CabinController {
 
 	@GetMapping
 	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
-	public ResponseEntity<List<CabinDto>> getCabins() {
-		return ResponseEntity.ok(cabinService.getCabins());
+	public ResponseEntity<List<CabinDto>> getCabins(
+			@RequestParam(value = "numberOfFloors", required = false) Integer numberOfFloors,
+			@RequestParam(value = "numberOfKitchens", required = false) Integer numberOfKitchens,
+			@RequestParam(value = "numberOfBathrooms", required = false) Integer numberOfBathrooms,
+			@RequestParam(value = "numberOfBedrooms", required = false) Integer numberOfBedrooms,
+			@RequestParam(value = "maxCapacity", required = false) Integer maxCapacity,
+			@RequestParam(value = "price", required = false) Double price,
+			@RequestParam(value = "siteId", required = false) Integer siteId,
+			@RequestParam(value = "attributeIds", required = false) List<Integer> attributeIds) {
+
+		CabinFilter cabinFilter = new CabinFilter(numberOfFloors, numberOfKitchens, numberOfBathrooms, numberOfBedrooms,
+				maxCapacity, price, siteId, attributeIds);
+
+		return ResponseEntity.ok(cabinService.getCabins(cabinFilter));
 	}
 
 	@DeleteMapping(value = Routes.BY_ID)

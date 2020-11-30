@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ikubinfo.converter.BookingConverter;
 import com.ikubinfo.dto.BookingDto;
+import com.ikubinfo.dto.BookingFilter;
 import com.ikubinfo.dto.UserDto;
 import com.ikubinfo.entities.BookingEntity;
 import com.ikubinfo.entities.CabinEntity;
@@ -55,20 +56,19 @@ public class BookingService {
 		return bookingConverter.toDto(bookingRepository.save(booking));
 	}
 
-	public List<BookingDto> getAllBookingsOfACabin(Integer id) {
+	public List<BookingDto> getAllBookingsOfACabin(Integer id, BookingFilter bookingFilter) {
 		if (id <= 0) {
 			throw new ValidationException(ValidationMessage.ID_NOT_VALID);
 		}
 		cabinRepository.findOptionalById(id)
 				.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.CABIN_NOT_FOUND));
-		return bookingConverter.toDtos(bookingRepository.getAllBookingsOfCabin(id));
+		return bookingConverter.toDtos(bookingRepository.getAllBookingsOfCabin(id, bookingFilter));
 	}
 
 	public void deleteBooking(Integer loggedUserId, Integer id) {
 		BookingEntity booking = bookingRepository.findOptionalById(id)
 				.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.BOOKING_NOT_FOUND));
-		UserDto user = userService.getCurrentUser(loggedUserId);
-		if (!user.getId().equals(booking.getUser().getId())) {
+		if (!loggedUserId.equals(booking.getUser().getId())) {
 			throw new BadRequestException(BadRequestMessage.WRONG_USER);
 		}
 		if(LocalDate.now().compareTo(booking.getCheckInDate().minusDays(3))>0) {
@@ -91,12 +91,11 @@ public class BookingService {
 				bookingDto.getCheckOutDate())){
 			throw new BadRequestException(BadRequestMessage.CABIN_ALREADY_BOOKED);
 		}
-		UserDto user = userService.getCurrentUser(loggedUserId);
-		if (!user.getId().equals(booking.getUser().getId())) {
+		if (!loggedUserId.equals(booking.getUser().getId())) {
 			throw new BadRequestException(BadRequestMessage.WRONG_USER);
 		}
 		bookingDto.setId(id);
-		bookingDto.setUser(user);
+		bookingDto.setUser(userService.getCurrentUser(loggedUserId));
 		BookingEntity bookingEntity = bookingConverter.toEntity(bookingDto);
 		bookingEntity.setCabin(cabin);
 		return bookingConverter.toDto(bookingRepository.update(bookingEntity));
