@@ -45,7 +45,7 @@ public class BookingController {
 	}
 
 	@GetMapping(value = Routes.BY_ID)
-	// @PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<BookingDto>> getAllBookingsForCabin(@PathVariable(value = Routes.ID) Integer id,
 			@RequestParam(value = "bookingDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate bookingDate,
 			@RequestParam(value = "checkInDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
