@@ -22,6 +22,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (userEntity == null) {
 			throw new NotFoundException(NotFoundExceptionMessage.USER_NOT_FOUND);
 		}
-		return UserPrinciple.build(userEntity);
+		return UserPrincipal.build(userEntity);
 	}
 }

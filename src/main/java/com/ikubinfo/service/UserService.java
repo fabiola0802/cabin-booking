@@ -99,9 +99,4 @@ public class UserService {
 		userRepository.update(user);
 	}
 	
-	public UserDto getCurrentUser(Integer id){
-		UserEntity user = userRepository.findOptionalById(id)
-				.orElseThrow(() -> new NotFoundException(NotFoundExceptionMessage.USER_NOT_FOUND));
-        return userConverter.toDto(user);
-	}
 }

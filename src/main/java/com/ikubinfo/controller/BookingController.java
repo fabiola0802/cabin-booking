@@ -22,9 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ikubinfo.dto.BookingDto;
 import com.ikubinfo.dto.BookingFilter;
-import com.ikubinfo.security.service.UserPrinciple;
 import com.ikubinfo.service.BookingService;
-import com.ikubinfo.utils.AuthenticationFacade;
 import com.ikubinfo.utils.Routes;
 
 @RestController
@@ -34,41 +32,62 @@ public class BookingController {
 	@Autowired
 	private BookingService bookingService;
 
-	@Autowired
-	private AuthenticationFacade authenticationFacade;
-
-	@PostMapping()
+	@PostMapping
 	@PreAuthorize("hasAuthority('CUSTOMER')")
 	public ResponseEntity<BookingDto> createBooking(@RequestBody BookingDto booking) {
-		UserPrinciple userPrinciple = (UserPrinciple) authenticationFacade.getAuthentication().getPrincipal();
-		return ResponseEntity.ok(bookingService.createBooking(userPrinciple.getId(), booking));
+		return ResponseEntity.ok(bookingService.createBooking(booking));
+	}
+	
+	@GetMapping
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<List<BookingDto>> getAllBookings(@RequestParam(value = "cabinId", required = false) Integer cabinId,
+			@RequestParam(value = "bookingDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate bookingDate,
+			@RequestParam(value = "checkInDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
+			@RequestParam(value = "checkInStartingFrom", required = false) Boolean checkInStartingFrom,
+			@RequestParam(value = "checkOutDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOutDate,
+			@RequestParam(value = "checkOutUntil", required = false) Boolean checkOutUntil,
+			@RequestParam(value = "numberOfPeople", required = false) Integer numberOfPeople,
+			@RequestParam(value = "userId", required = false) Integer userId) { //pageSize pageNumber
+		BookingFilter bookingFilter = new BookingFilter(bookingDate, checkInDate, checkOutDate, numberOfPeople, userId);
+		bookingFilter.setCabinId(cabinId);
+		bookingFilter.setCheckInStartingFrom(checkInStartingFrom);
+		bookingFilter.setCheckOutUntil(checkOutUntil);
+		return ResponseEntity.ok(bookingService.getBookings(bookingFilter));
+	}
+	
+	@GetMapping(value = "/my")
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<List<BookingDto>> getMyBookings(@RequestParam(value = "cabinId", required = false) Integer cabinId,
+			@RequestParam(value = "bookingDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate bookingDate,
+			@RequestParam(value = "checkInDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
+			@RequestParam(value = "checkInStartingFrom", required = false) Boolean checkInStartingFrom,
+			@RequestParam(value = "checkOutDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOutDate,
+			@RequestParam(value = "checkOutUntil", required = false) Boolean checkOutUntil,
+			@RequestParam(value = "numberOfPeople", required = false) Integer numberOfPeople) {
+		BookingFilter bookingFilter = new BookingFilter(bookingDate, checkInDate, checkOutDate, numberOfPeople);
+		bookingFilter.setCabinId(cabinId);
+		bookingFilter.setCheckInStartingFrom(checkInStartingFrom);
+		bookingFilter.setCheckOutUntil(checkOutUntil);
+		return ResponseEntity.ok(bookingService.getCurrentUserBookings(bookingFilter));
 	}
 
 	@GetMapping(value = Routes.BY_ID)
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<List<BookingDto>> getAllBookingsForCabin(@PathVariable(value = Routes.ID) Integer id,
-			@RequestParam(value = "bookingDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate bookingDate,
-			@RequestParam(value = "checkInDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
-			@RequestParam(value = "checkOutDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOutDate,
-			@RequestParam(value = "numberOfPeople", required = false) Integer numberOfPeople,
-			@RequestParam(value = "userId", required = false) Integer userId) {
-		BookingFilter bookingFilter = new BookingFilter(bookingDate, checkInDate, checkOutDate, numberOfPeople, userId);
-		return ResponseEntity.ok(bookingService.getAllBookingsOfACabin(id, bookingFilter));
+	public ResponseEntity<BookingDto> getBookingDetails(@PathVariable(value = Routes.ID) Integer id) {
+		return ResponseEntity.ok(bookingService.getBooking(id));
 	}
 
 	@PutMapping(value = Routes.BY_ID)
 	@PreAuthorize("hasAuthority('CUSTOMER')")
 	public ResponseEntity<BookingDto> updateBooking(@PathVariable(value = Routes.ID) Integer id,
 			@Valid @RequestBody BookingDto booking) {
-		UserPrinciple userPrinciple = (UserPrinciple) authenticationFacade.getAuthentication().getPrincipal();
-		return ResponseEntity.ok(bookingService.updateBooking(id, userPrinciple.getId(), booking));
+		return ResponseEntity.ok(bookingService.updateBooking(id, booking));
 	}
 
 	@DeleteMapping(value = Routes.BY_ID)
 	@PreAuthorize("hasAuthority('CUSTOMER')")
 	public ResponseEntity<Void> deleteBooking(@PathVariable(value = Routes.ID) Integer id) {
-		UserPrinciple userPrinciple = (UserPrinciple) authenticationFacade.getAuthentication().getPrincipal();
-		bookingService.deleteBooking(userPrinciple.getId(), id);
+		bookingService.deleteBooking(id);
 		return ResponseEntity.noContent().build();
 	}
 }

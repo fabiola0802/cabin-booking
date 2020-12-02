@@ -21,7 +21,7 @@ import com.ikubinfo.enums.Role;
 import com.ikubinfo.security.LoginRequest;
 import com.ikubinfo.security.LoginResponse;
 import com.ikubinfo.security.jwt.JwtProvider;
-import com.ikubinfo.security.service.UserPrinciple;
+import com.ikubinfo.security.service.UserPrincipal;
 import com.ikubinfo.utils.Routes;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
@@ -46,7 +46,7 @@ public class AuthController {
 	}
 
 	private LoginResponse createResponse(Authentication authentication, String token) {
-		UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+		UserPrincipal userPrinciple = (UserPrincipal) authentication.getPrincipal();
 		LoginResponse loginResponse = new LoginResponse();
 		loginResponse.setId(userPrinciple.getId());
 		loginResponse.setUsername(userPrinciple.getUsername());

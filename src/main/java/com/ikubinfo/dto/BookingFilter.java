@@ -9,18 +9,26 @@ public class BookingFilter {
 	private LocalDate checkOutDate;
 	private Integer numberOfPeople;
 	private Integer userId;
+	private Integer cabinId;
+
+	private boolean checkInStartingFrom = false;
+	private boolean checkOutUntil = false;
 
 	public BookingFilter() {
 		super();
 	}
 
-	public BookingFilter(LocalDate bookingDate, LocalDate checkInDate, LocalDate checkOutDate, Integer numberOfPeople,
-			Integer userId) {
+	public BookingFilter(LocalDate bookingDate, LocalDate checkInDate, LocalDate checkOutDate, Integer numberOfPeople) {
 		super();
 		this.bookingDate = bookingDate;
 		this.checkInDate = checkInDate;
 		this.checkOutDate = checkOutDate;
 		this.numberOfPeople = numberOfPeople;
+	}
+	
+	public BookingFilter(LocalDate bookingDate, LocalDate checkInDate, LocalDate checkOutDate, Integer numberOfPeople,
+			Integer userId) {
+		this(bookingDate, checkInDate, checkOutDate, numberOfPeople);
 		this.userId = userId;
 	}
 
@@ -63,4 +71,30 @@ public class BookingFilter {
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+
+	public Integer getCabinId() {
+		return cabinId;
+	}
+
+	public void setCabinId(Integer cabinId) {
+		this.cabinId = cabinId;
+	}
+
+	public boolean isCheckInStartingFrom() {
+		return checkInStartingFrom;
+	}
+
+	public void setCheckInStartingFrom(Boolean checkInStartingFrom) {
+		this.checkInStartingFrom = Boolean.TRUE.equals(checkInStartingFrom);
+	}
+
+	public boolean isCheckOutUntil() {
+		return checkOutUntil;
+	}
+
+	public void setCheckOutUntil(Boolean checkOutUntil) {
+		this.checkOutUntil = Boolean.TRUE.equals(checkOutUntil);
+	}
+
+	
 }

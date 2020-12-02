@@ -87,20 +87,30 @@ public class BookingRepository extends BaseRepository<BookingEntity> {
 		return entityManager.createQuery(query).getSingleResult() != 0;
 	}
 
-	public List<BookingEntity> getAllBookingsOfCabin(Integer id, BookingFilter booking) {
+	public List<BookingEntity> getAllBookings(BookingFilter booking) {
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<BookingEntity> query = builder.createQuery(BookingEntity.class);
 		Root<BookingEntity> root = query.from(BookingEntity.class);
 		List<Predicate> predicates = new ArrayList<>();
-		predicates.add(builder.equal(root.get("cabin"), id));
+		if(booking.getCabinId() != null) {
+			predicates.add(builder.equal(root.get("cabin"), booking.getCabinId()));
+		}
 		if (booking.getBookingDate() != null) {
 			predicates.add(builder.equal(root.get("bookingDate"), booking.getBookingDate()));
 		}
 		if (booking.getCheckInDate() != null) {
-			predicates.add(builder.equal(root.get("checkInDate"), booking.getCheckInDate()));
+			if(booking.isCheckInStartingFrom()) {
+				predicates.add(builder.greaterThanOrEqualTo(root.get("checkInDate"), booking.getCheckInDate()));
+			} else {
+				predicates.add(builder.equal(root.get("checkInDate"), booking.getCheckInDate()));
+			}
 		}
 		if (booking.getCheckOutDate() != null) {
-			predicates.add(builder.equal(root.get("checkOutDate"), booking.getCheckOutDate()));
+			if(booking.isCheckOutUntil()) {
+				predicates.add(builder.lessThanOrEqualTo(root.get("checkOutDate"), booking.getCheckOutDate()));
+			} else {
+				predicates.add(builder.equal(root.get("checkOutDate"), booking.getCheckOutDate()));
+			}
 		}
 		if (booking.getNumberOfPeople() != null) {
 			predicates.add(builder.equal(root.get("numberOfPeople"), booking.getNumberOfPeople()));
@@ -110,6 +120,9 @@ public class BookingRepository extends BaseRepository<BookingEntity> {
 		}
 		query.where(predicates.toArray(new Predicate[] {}));
 		query.select(root).distinct(true);
-		return entityManager.createQuery(query).getResultList();
+		return entityManager.createQuery(query)
+//				.setFirstResult(0) //0*pageSize
+//				.setMaxResults(10) //pageSize
+				.getResultList();
 	}
 }

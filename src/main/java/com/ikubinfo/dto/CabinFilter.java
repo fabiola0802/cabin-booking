@@ -1,5 +1,6 @@
 package com.ikubinfo.dto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class CabinFilter {
@@ -13,12 +14,25 @@ public class CabinFilter {
 	private Integer siteId;
 	private List<Integer> attributeIds;
 
+	private LocalDate freeFrom;
+	private LocalDate freeTo;
+
 	public CabinFilter() {
 		super();
 	}
 
 	public CabinFilter(Integer numberOfFloors, Integer numberOfKitchens, Integer numberOfBathrooms,
-			Integer numberOfBedrooms, Integer maxCapacity, Double price, Integer siteId, List<Integer> attributeIds) {
+			Integer numberOfBedrooms, Integer maxCapacity, Double price, Integer siteId, List<Integer> attributeIds,
+			LocalDate freeFrom, LocalDate freeTo) {
+		this(numberOfFloors, numberOfKitchens, numberOfBathrooms, numberOfBedrooms, maxCapacity, price);
+		this.siteId = siteId;
+		this.attributeIds = attributeIds;
+		this.freeFrom = freeFrom;
+		this.freeTo = freeTo;
+	}
+
+	public CabinFilter(Integer numberOfFloors, Integer numberOfKitchens, Integer numberOfBathrooms,
+			Integer numberOfBedrooms, Integer maxCapacity, Double price) {
 		super();
 		this.numberOfFloors = numberOfFloors;
 		this.numberOfKitchens = numberOfKitchens;
@@ -26,8 +40,6 @@ public class CabinFilter {
 		this.numberOfBedrooms = numberOfBedrooms;
 		this.maxCapacity = maxCapacity;
 		this.price = price;
-		this.siteId = siteId;
-		this.attributeIds = attributeIds;
 	}
 
 	public Integer getNumberOfFloors() {
@@ -93,4 +105,21 @@ public class CabinFilter {
 	public void setAttributeIds(List<Integer> attributeIds) {
 		this.attributeIds = attributeIds;
 	}
+
+	public LocalDate getFreeFrom() {
+		return freeFrom;
+	}
+
+	public void setFreeFrom(LocalDate freeFrom) {
+		this.freeFrom = freeFrom;
+	}
+
+	public LocalDate getFreeTo() {
+		return freeTo;
+	}
+
+	public void setFreeTo(LocalDate freeTo) {
+		this.freeTo = freeTo;
+	}
+
 }

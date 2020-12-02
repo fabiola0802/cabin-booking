@@ -1,10 +1,12 @@
 package com.ikubinfo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,11 +48,16 @@ public class CabinController {
 			@RequestParam(value = "maxCapacity", required = false) Integer maxCapacity,
 			@RequestParam(value = "price", required = false) Double price,
 			@RequestParam(value = "siteId", required = false) Integer siteId,
-			@RequestParam(value = "attributeIds", required = false) List<Integer> attributeIds) {
+			@RequestParam(value = "attributeIds", required = false) List<Integer> attributeIds,
+			@RequestParam(value = "freeFrom", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate freeFrom,
+			@RequestParam(value = "freeTo", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate freeTo) {
 
 		CabinFilter cabinFilter = new CabinFilter(numberOfFloors, numberOfKitchens, numberOfBathrooms, numberOfBedrooms,
-				maxCapacity, price, siteId, attributeIds);
-
+				maxCapacity, price);
+		cabinFilter.setAttributeIds(attributeIds);
+		cabinFilter.setSiteId(siteId);
+		cabinFilter.setFreeFrom(freeFrom);
+		cabinFilter.setFreeTo(freeTo);
 		return ResponseEntity.ok(cabinService.getCabins(cabinFilter));
 	}
 
