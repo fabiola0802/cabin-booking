@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import com.ikubinfo.security.exception.InvalidTokenException;
-import com.ikubinfo.security.service.UserPrinciple;
+import com.ikubinfo.security.service.UserPrincipal;
 import com.ikubinfo.utils.AppProperties;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -30,7 +30,7 @@ public class JwtProvider {
 	private int jwtExpiration;
 
 	public String generateJwtToken(Authentication authentication) {
-		UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+		UserPrincipal userPrinciple = (UserPrincipal) authentication.getPrincipal();
 		ZonedDateTime issuedDate = ZonedDateTime.now();
 		ZonedDateTime expirationDate = calculateExpirationDate(issuedDate);
 

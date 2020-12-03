@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ikubinfo.dto.SiteDto;
+import com.ikubinfo.dto.SiteFilter;
 import com.ikubinfo.service.SiteService;
 import com.ikubinfo.utils.Routes;
 
@@ -29,20 +31,21 @@ public class SiteController {
 	private SiteService siteService;
 
 	@GetMapping
-	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
-	public ResponseEntity<List<SiteDto>> getAllSites() {
-		return ResponseEntity.ok(siteService.getAllSites());
+	public ResponseEntity<List<SiteDto>> getSites(
+			@RequestParam(value = "description", required = false) String description,
+			@RequestParam(value = "location", required = false) String location) {
+		SiteFilter sitefilter = new SiteFilter(description, location);
+		return ResponseEntity.ok(siteService.getSites(sitefilter));
 	}
 
 	@GetMapping(value = Routes.BY_ID)
-	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
 	public ResponseEntity<SiteDto> getSiteById(@PathVariable(value = Routes.ID) int id) {
 		return ResponseEntity.ok(siteService.findSiteById(id));
 
 	}
 
 	@PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<SiteDto> addSite(@Valid @RequestBody SiteDto siteToBeCreated) {
 		return ResponseEntity.ok(siteService.addSite(siteToBeCreated));
 	}

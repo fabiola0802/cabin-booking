@@ -87,6 +87,9 @@ public class CabinBookingSecurityConfiguration extends WebSecurityConfigurerAdap
 	public void configure(WebSecurity http) {
 		http.ignoring().antMatchers(getDisabledUrlPaths());
 		http.ignoring().antMatchers(HttpMethod.OPTIONS);
+		http.ignoring().antMatchers(HttpMethod.GET, "/sites/**");
+		http.ignoring().antMatchers(HttpMethod.GET, "/attributes/**");
+		http.ignoring().antMatchers(HttpMethod.GET, "/cabins/**");
 	}
 
 	private String[] getDisabledUrlPaths() {

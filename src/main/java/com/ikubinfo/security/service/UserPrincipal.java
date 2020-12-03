@@ -12,7 +12,7 @@ import com.ikubinfo.entities.UserEntity;
 
 
 
-public class UserPrinciple  implements UserDetails{
+public class UserPrincipal  implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -31,20 +31,20 @@ public class UserPrinciple  implements UserDetails{
    
     private Collection<? extends GrantedAuthority> authorities;
 	
-	   public static UserPrinciple build(UserEntity user) {
-		   UserPrinciple userPrinciple = new UserPrinciple();
-	        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-	        grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().name()));
-	        userPrinciple.setAuthorities(grantedAuthorities);
-	        userPrinciple.setId(user.getId());
-	        userPrinciple.setName(user.getName());
-	        userPrinciple.setSurname(user.getSurname());
-	        userPrinciple.setUsername(user.getUsername());
-	        userPrinciple.setEmail(user.getEmail());
-	        userPrinciple.setPassword(user.getPassword());
+   public static UserPrincipal build(UserEntity user) {
+	   UserPrincipal userPrincipal = new UserPrincipal();
+        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+        userPrincipal.setAuthorities(grantedAuthorities);
+        userPrincipal.setId(user.getId());
+        userPrincipal.setName(user.getName());
+        userPrincipal.setSurname(user.getSurname());
+        userPrincipal.setUsername(user.getUsername());
+        userPrincipal.setEmail(user.getEmail());
+        userPrincipal.setPassword(user.getPassword());
 
-	        return userPrinciple;
-	   }
+        return userPrincipal;
+   }
 	   
 	   
 
@@ -88,37 +88,31 @@ public class UserPrinciple  implements UserDetails{
 
 	@Override
 	public String getPassword() {
-
 		return password;
 	}
 
 	@Override
 	public String getUsername() {
-		
 		return username;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		
 		return true;
 	}
 

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import com.ikubinfo.dto.UserDto;
 import com.ikubinfo.dto.UserUpdateDto;
 import com.ikubinfo.entities.UserEntity;
+import com.ikubinfo.security.service.UserPrincipal;
 
 @Component
 public class UserConverter implements BaseConverter<UserEntity, UserDto> {
@@ -42,5 +43,15 @@ public class UserConverter implements BaseConverter<UserEntity, UserDto> {
 		user.setEmail(dto.getEmail());
 		return user;
 
+	}
+	
+	public UserDto toDto(UserPrincipal userPrincipal) {
+		UserDto user = new UserDto();
+		user.setId(userPrincipal.getId());
+		user.setUsername(userPrincipal.getUsername());
+		user.setEmail(userPrincipal.getEmail());
+		user.setName(userPrincipal.getName());
+		user.setSurname(userPrincipal.getSurname());
+		return user;
 	}
 }

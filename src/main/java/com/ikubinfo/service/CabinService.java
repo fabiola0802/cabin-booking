@@ -8,18 +8,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ikubinfo.converter.CabinConverter;
+import com.ikubinfo.dto.AttributeDto;
 import com.ikubinfo.dto.CabinDto;
+import com.ikubinfo.dto.CabinFilter;
 import com.ikubinfo.entities.AttributeEntity;
 import com.ikubinfo.entities.CabinEntity;
 import com.ikubinfo.entities.SiteEntity;
 import com.ikubinfo.enums.AttributeType;
-import com.ikubinfo.utils.messages.BadRequestMessage;
 import com.ikubinfo.exceptions.BadRequestException;
 import com.ikubinfo.exceptions.NotFoundException;
 import com.ikubinfo.exceptions.ValidationException;
 import com.ikubinfo.repository.AttributeRepository;
 import com.ikubinfo.repository.CabinRepository;
 import com.ikubinfo.repository.SiteRepository;
+import com.ikubinfo.utils.messages.BadRequestMessage;
 import com.ikubinfo.utils.messages.NotFoundExceptionMessage;
 import com.ikubinfo.utils.messages.ValidationMessage;
 
@@ -74,8 +76,8 @@ public class CabinService {
 		return cabinConverter.toDto(cabinRepository.update(cabinEntity));
 	}
 
-	public List<CabinDto> getCabins() {
-		return cabinConverter.toDtos(cabinRepository.getAll());
+	public List<CabinDto> getCabins(CabinFilter cabinFilter) {
+		return cabinConverter.toDtos(cabinRepository.getCabins(cabinFilter));
 	}
 
 	public CabinDto getCabinById(Integer id) {
@@ -90,7 +92,7 @@ public class CabinService {
 	}
 
 	private List<AttributeEntity> validateAttributes(CabinDto cabin) {
-		List<Integer> cabinAttributeIds = cabin.getAttributes().stream().map(attributeDto -> attributeDto.getId())
+		List<Integer> cabinAttributeIds = cabin.getAttributes().stream().map(AttributeDto::getId)
 				.collect(Collectors.toList());
 		List<AttributeEntity> cabinAttributes = attributeRepository.findByIdsAndType(cabinAttributeIds,
 				AttributeType.CABIN);
