@@ -31,7 +31,6 @@ public class SiteController {
 	private SiteService siteService;
 
 	@GetMapping
-	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
 	public ResponseEntity<List<SiteDto>> getSites(
 			@RequestParam(value = "description", required = false) String description,
 			@RequestParam(value = "location", required = false) String location) {
@@ -40,7 +39,6 @@ public class SiteController {
 	}
 
 	@GetMapping(value = Routes.BY_ID)
-	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
 	public ResponseEntity<SiteDto> getSiteById(@PathVariable(value = Routes.ID) int id) {
 		return ResponseEntity.ok(siteService.findSiteById(id));
 

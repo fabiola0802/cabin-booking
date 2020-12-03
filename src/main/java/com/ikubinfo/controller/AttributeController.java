@@ -30,14 +30,12 @@ public class AttributeController {
 	private AttributeService attributeService;
 
 	@GetMapping
-	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
 	public ResponseEntity<List<AttributeDto>> getAttributes(
 			@RequestParam(value = Routes.TYPE, required = false) String type) {
 		return ResponseEntity.ok(attributeService.filterAttributesByType(type));
 	}
 
 	@GetMapping(value = Routes.BY_ID)
-	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
 	public ResponseEntity<AttributeDto> findAttributeById(@PathVariable(value = Routes.ID) int id) {
 		return ResponseEntity.ok(attributeService.getAttributeById(id));
 	}

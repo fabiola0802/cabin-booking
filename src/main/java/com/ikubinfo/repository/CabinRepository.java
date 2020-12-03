@@ -9,6 +9,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ikubinfo.dto.CabinFilter;
@@ -17,6 +18,9 @@ import com.ikubinfo.entities.CabinEntity;
 
 @Repository
 public class CabinRepository extends BaseRepository<CabinEntity> {
+
+	@Autowired
+	private BookingRepository bookingRepository;
 
 	public CabinRepository() {
 		super(CabinEntity.class);
@@ -37,8 +41,7 @@ public class CabinRepository extends BaseRepository<CabinEntity> {
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);
 		Root<CabinEntity> root = query.from(CabinEntity.class);
 		query.select(builder.count(root.get("cabinNumber")));
-		query.where(builder.equal(root.get("cabinNumber"), cabinNumber), 
-				builder.equal(root.get("site"), siteId),
+		query.where(builder.equal(root.get("cabinNumber"), cabinNumber), builder.equal(root.get("site"), siteId),
 				builder.notEqual(root.get("id"), id));
 		return entityManager.createQuery(query).getSingleResult() != 0;
 	}
@@ -72,25 +75,22 @@ public class CabinRepository extends BaseRepository<CabinEntity> {
 		if (cabinFilter.getAttributeIds() != null) {
 			predicates.add(root.join("cabinAttributes").in(cabinFilter.getAttributeIds()));
 		}
-		
-		if(cabinFilter.getFreeFrom() != null || cabinFilter.getFreeTo() != null) {
-			//(select b from booking b where b.cabin_id = c.id and b.checkInDate >= :freeFrom and b.checkOutDate <= :freeTo)
+
+		if (cabinFilter.getFreeFrom() != null && cabinFilter.getFreeTo() != null) {
+			// (select b from booking b where b.cabin_id = c.id and b.checkInDate >=
+			// :freeFrom and b.checkOutDate <= :freeTo)
 			Subquery<BookingEntity> bookingSubquery = query.subquery(BookingEntity.class);
 			Root<BookingEntity> bookingRoot = bookingSubquery.from(BookingEntity.class);
 			bookingSubquery.select(bookingRoot);
 			List<Predicate> subPredicates = new ArrayList<>();
 			subPredicates.add(builder.equal(bookingRoot.get("cabin").get("id"), root.get("id")));
-			
-			if(cabinFilter.getFreeFrom() != null) {
-				subPredicates.add(builder.greaterThanOrEqualTo(bookingRoot.get("checkInDate"), cabinFilter.getFreeFrom()));
-			}
 
-			if(cabinFilter.getFreeTo() != null) {
-				subPredicates.add(builder.lessThanOrEqualTo(bookingRoot.get("checkOutDate"), cabinFilter.getFreeTo()));
-			}
-			
+			Predicate cabinBookedPredicate = bookingRepository.getCabinBookedPredicate(bookingRoot, builder,
+					cabinFilter.getFreeFrom(), cabinFilter.getFreeTo());
+			subPredicates.add(cabinBookedPredicate);
+
 			bookingSubquery.where(subPredicates.toArray(new Predicate[] {}));
-			
+
 			predicates.add(builder.exists(bookingSubquery).not());
 		}
 

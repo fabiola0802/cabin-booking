@@ -39,7 +39,6 @@ public class CabinController {
 	}
 
 	@GetMapping
-	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
 	public ResponseEntity<List<CabinDto>> getCabins(
 			@RequestParam(value = "numberOfFloors", required = false) Integer numberOfFloors,
 			@RequestParam(value = "numberOfKitchens", required = false) Integer numberOfKitchens,
@@ -69,7 +68,6 @@ public class CabinController {
 	}
 
 	@GetMapping(value = Routes.BY_ID)
-	@PreAuthorize("hasAnyAuthority('CUSTOMER','ADMIN')")
 	public ResponseEntity<CabinDto> getCabinById(@PathVariable(value = Routes.ID) Integer id) {
 		return ResponseEntity.ok(cabinService.getCabinById(id));
 	}
